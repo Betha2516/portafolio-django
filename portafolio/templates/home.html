@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{%block title%}
+Inicio
+{%endblock%}
+{%block content%}
+{% load static %}
+
+<!-- Carrusel de imagenes -->
+<div id="carouselExampleAutoplaying" class="carousel slide carousel-custom" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="1000">
+        <img src="{% static 'img/coding.png' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption text-md-start text-center caption-custom">
+            <h5 class="fs-1 fs-md-3 fs-sm-4 fw-bold text-white">Alfonso Jiménez: <br>Software Project Manager</h5>
+            <p class="fs-4 fs-md-5 fs-sm-6 text-white">
+              Con competencias avanzadas en desarrollo full stack, gestión de proyectos y metodologías ágiles
+            </p>
+            <a class="btn btn-primary" href="{% url 'login' %}">Contactanos</a>
+          </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="1500">
+        <img src="{% static 'img/coding2.png' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption text-md-start text-center caption-custom">
+            <h5 class="fs-1 fs-md-3 fs-sm-4 fw-bold text-white">Samuel Betancur :<br> dev backend</h5>
+            <p class="fs-4 fs-md-5 fs-sm-6 text-white">
+          Con competencias avanzadas en desarrollo backend, arquitectura de
+            software y optimización
+            de bases de datos.</p>
+            <a class="btn btn-primary" href="{% url 'login' %}">Contactanos</a>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="{% static 'img/coding3.png' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption text-md-start text-center caption-custom">
+            <h5 class="fs-1 fs-md-3 fs-sm-4 fw-bold text-white">Carolina Vargas: <br> dev Full Stack</h5>
+            <p class="fs-4 fs-md-5 fs-sm-6 text-white">Con competencias avanzadas en desarrollo de front-end Incluyendo
+            frameworks, backend,
+            bases de datos y devops.</p>
+            <a class="btn btn-primary" href="{% url 'login' %}">Contactanos</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+</div>
+
+<!-- Galeria de imagenes con overlay -->
+<div class="container mt-4 gallery-custom">
+    <div class="texto-gallery text-center">
+        <h1>Nuestro <span>portafolio</span> de proyectos</h1>
+        <div class="linea-separacion mx-auto"></div>
+        <p>Proyectos de los que hemos formado parte</p>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col image-custom">
+            <img src="{% static 'img/alfonso1.png' %}" class="img-fluid rounded w-100" alt="Imagen 1">
+            <div class="overlay">
+                <p class="text-overlay">Sistema de gestión de practicantes <br> Para estudiantes de la facultad de medicinas</p>
+            </div>
+        </div>
+        <div class="col image-custom">
+            <img src="{% static 'img/alfonso2.png' %}" class="img-fluid rounded w-100" alt="Imagen 2">
+            <div class="overlay">
+                <p class="text-overlay">Página web <br> Proyectos personales </p>
+            </div>
+        </div>
+        <div class="col image-custom">
+            <img src="{% static 'img/alfonso3.png' %}" class="img-fluid rounded w-100" alt="Imagen 3">
+            <div class="overlay">
+                <p class="text-overlay">Predicción de estatus de obesidad <br> Modelo de Inteligencia Artificial para la materia </p>
+            </div>
+        </div>
+        <div class="col image-custom">
+            <img src="{% static 'img/caro1.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 4">
+            <div class="overlay">
+                <p class="text-overlay">Juego interactivo <br> Elementos dinámicos y texto</p>
+            </div>
+        </div>
+        <div class="col image-custom">
+            <img src="{% static 'img/caro2.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 5">
+            <div class="overlay">
+                <p class="text-overlay">Juego del número secreto <br> Adivina el número para ganar </p>
+            </div>
+        </div>
+        <div class="col image-custom">
+            <img src="{% static 'img/caro3.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 6">
+            <div class="overlay">
+                <p class="text-overlay">Tienda Geek <br>Portal de tienda con productos dinámicos</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video -->
+<div class="container text-center video-custom">
+    <h2 class="m-4 fw-bold ">Introduccion a nuestro portafolio</h2>
+
+    <iframe class="mx-auto d-block m-3 " width="80%" height="400" 
+        src="https://www.youtube.com/embed/WNCl-69POro?si=1khtNBHOdUakopZ8" 
+        frameborder="0" allowfullscreen>
+    </iframe>
+</div>
+
+{%endblock%}

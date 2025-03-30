@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+
+{% block title%}
+    Login
+{%endblock%}
+{% block content%}
+    <div class="col-md-6 offset-md-3 ">
+        <div class="container border border-light border-1 rounded-3 mt-5 w-75 mb-3 text-center" style="background-color:rgba(217, 217, 217, 0.5)">
+            <h1>Inicia Sesion</h1>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="mb-3 ">
+                    <label for="usernameInput" class="form-label">Usuario</label>
+                    <input
+                        class="form-control "
+                        id="usernameInput"
+                        name="username"
+                        type="text"
+                        placeholder="Ingresa aquí tu correo"
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Contraseña</label>
+                    <input
+                        class="form-control "
+                        id="passwordInput"
+                        name="password"
+                        type="password"
+                        placeholder="Ingresa aquí tu contraseña"
+                    />
+                </div>
+                <div class="d-flex mb-3 justify-content-center">
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </div>  
+                <div class="d-flex mb-3 justify-content-center">
+                    <a href="{% url 'registrarse' %}">No estás registrado? Regístrate</a>
+                </div>
+            </form>            
+        </div>
+    </div>
+{%endblock%}
