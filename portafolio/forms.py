@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Client
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
+from .models import Project
 
 class registro(forms.ModelForm):
     nombre = forms.CharField(max_length=30, required=False)
@@ -28,20 +29,16 @@ class registro(forms.ModelForm):
 
         return cleaned_data
 
-    def clean_email(self):
-        # verifica que email no exista
+    def clean_correo(self):
         correo = self.cleaned_data.get('correo')
-        if User.objects.filter(correo=correo).exists():
-            raise forms.ValidationError(
-                "Correo ya existente")
+        if User.objects.filter(email=correo).exists():
+            raise forms.ValidationError("Correo ya existente")
         return correo
 
-    def clean_phone(self):
-        # verifica que email no exista
+    def clean_celular(self):
         celular = self.cleaned_data.get('celular')
-        if User.objects.filter(celular=celular).exists():
-            raise forms.ValidationError(
-                "Celular ya existente")
+        if Client.objects.filter(celular=celular).exists():
+            raise forms.ValidationError("Celular ya existente")
         return celular
 
     def save(self, commit=True):
@@ -59,3 +56,9 @@ class registro(forms.ModelForm):
             client.user = user
             client.save()
         return user
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['nombre', 'empresa']

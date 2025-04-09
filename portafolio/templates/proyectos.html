@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main id="pagina-control">
+    <a href="https://www.whatsapp.com/?lang=es_LA" class="floating-button"></a>
+    <style>
+        body {
+            background: #e3e3e3;
+        }
+    </style>
+    <div class="panel-proyectos">
+        <div id="projectList">
+            <h1>Proyectos</h1>
+            <input type="text" id="searchProject" placeholder="Buscar proyectos..." class="search-bar">
+            <div id="proyectosContainer">
+                {% for proyecto in proyectos %}
+                <div class="proyecto-item">
+                    <h3>{{ proyecto.nombre }}</h3>
+                    <p>Empresa: {{ proyecto.empresa }}</p>
+                    <button class="eliminar-proyecto" data-id="{{ proyecto.id }}">Eliminar</button>
+                </div>
+                {% empty %}
+                <p>No hay proyectos para mostrar.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <form method="POST" id="projectForm">
+            {% csrf_token %}
+            <h1 id="titulo-control">Servicios</h1>
+            <label for="empresa" class="form-label">Nombre de la empresa</label>
+            <input type="text" class="form-control" id="empresa" name="empresa" required />
+
+            <label for="proyecto" class="form-label">Proyecto</label>
+            <input type="text" class="form-control" id="proyecto" name="proyecto" required />
+
+            <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".eliminar-proyecto").forEach(button => {
+            button.addEventListener("click", async (e) => {
+                const proyectoId = e.target.dataset.id;
+    
+                const response = await fetch(`/eliminar-proyecto/${proyectoId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    }
+                });
+    
+                const data = await response.json();
+                if (data.success) {
+                    e.target.parentElement.remove(); // Eliminar del DOM
+                } else {
+                    alert("Error al eliminar el proyecto: " + (data.error || ""));
+                }
+            });
+        });
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("searchProject");
+        const container = document.getElementById("proyectosContainer");
+    
+        searchInput.addEventListener("input", async () => {
+            const query = searchInput.value;
+    
+            const response = await fetch(`/buscar-proyectos/?q=${encodeURIComponent(query)}`);
+            const result = await response.json();
+    
+            if (result.proyectos.length === 0) {
+                container.innerHTML = `<p>No hay proyectos para mostrar.</p>`;
+                return;
+            }
+    
+            container.innerHTML = result.proyectos.map(p => `
+                <div class="proyecto-item">
+                    <h3>${p.nombre}</h3>
+                    <p>Empresa: ${p.empresa}</p>
+                    <button class="eliminar-proyecto" data-id="${p.id}">Eliminar</button>
+                </div>
+            `).join("");
+    
+            // Reasignar eventos a los botones "Eliminar"
+            document.querySelectorAll(".eliminar-proyecto").forEach(boton => {
+                boton.addEventListener("click", async (e) => {
+                    const id = e.target.dataset.id;
+                    const res = await fetch(`/eliminar-proyecto/${id}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}",
+                        },
+                    });
+    
+                    const result = await res.json();
+                    if (result.success) {
+                        e.target.parentElement.remove();
+                    } else {
+                        alert("No se pudo eliminar el proyecto");
+                    }
+                });
+            });
+        });
+    });
+    </script>
+    
+
+{% endblock %}

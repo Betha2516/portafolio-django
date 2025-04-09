@@ -65,39 +65,21 @@ Inicio
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col image-custom">
             <img src="{% static 'img/alfonso1.png' %}" class="img-fluid rounded w-100" alt="Imagen 1">
-            <div class="overlay">
-                <p class="text-overlay">Sistema de gestión de practicantes <br> Para estudiantes de la facultad de medicinas</p>
-            </div>
         </div>
         <div class="col image-custom">
             <img src="{% static 'img/alfonso2.png' %}" class="img-fluid rounded w-100" alt="Imagen 2">
-            <div class="overlay">
-                <p class="text-overlay">Página web <br> Proyectos personales </p>
-            </div>
         </div>
         <div class="col image-custom">
             <img src="{% static 'img/alfonso3.png' %}" class="img-fluid rounded w-100" alt="Imagen 3">
-            <div class="overlay">
-                <p class="text-overlay">Predicción de estatus de obesidad <br> Modelo de Inteligencia Artificial para la materia </p>
-            </div>
         </div>
         <div class="col image-custom">
             <img src="{% static 'img/caro1.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 4">
-            <div class="overlay">
-                <p class="text-overlay">Juego interactivo <br> Elementos dinámicos y texto</p>
-            </div>
         </div>
         <div class="col image-custom">
             <img src="{% static 'img/caro2.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 5">
-            <div class="overlay">
-                <p class="text-overlay">Juego del número secreto <br> Adivina el número para ganar </p>
-            </div>
         </div>
         <div class="col image-custom">
             <img src="{% static 'img/caro3.JPG' %}" class="img-fluid rounded w-100" alt="Imagen 6">
-            <div class="overlay">
-                <p class="text-overlay">Tienda Geek <br>Portal de tienda con productos dinámicos</p>
-            </div>
         </div>
     </div>
 </div>
@@ -112,4 +94,11 @@ Inicio
     </iframe>
 </div>
 
+{% if inicio_exitoso %}
+<script>
+    alert("Inicio de sesión correcto");
+</script>
+{% endif %}
+
 {%endblock%}
+

@@ -6,8 +6,8 @@
 {%endblock%}
 {% block content%}
     <div class="col-md-6 offset-md-3 ">
-        <div class="container border border-light border-1 rounded-3 mt-5 w-75 mb-3 text-center" style="background-color:rgba(217, 217, 217, 0.5)">
-            <h1>Inicia Sesion</h1>
+        <div class="container border border-light border-1 rounded-3 margin-top-5rem w-75 mb-3 text-center" style="background-color:rgba(217, 217, 217, 0.5)">
+            <h1 class="heading-login">Inicia Sesion</h1>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="mb-3 ">

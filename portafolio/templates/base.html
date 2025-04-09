@@ -20,8 +20,7 @@
             </div>
             {% endfor %}
         </div>
-        <button id="modoNocturno" class="btn btn-dark sticky-dark">🌙 Modo Nocturno</button>
-        <button id="btnRedes" class="btn sticky-red">📲 Redes</button>
+        <button id="modoNocturno" class="btn btn-dark floating-left">🌙 Modo Nocturno</button>
         {% block content %}{% endblock %}
     </main>
     
@@ -66,20 +65,134 @@
     </footer>
     <script>
         const boton = document.getElementById("modoNocturno");
-
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-brand");
+        const inputs = document.querySelectorAll(".form-control");
+        const formContainer = document.querySelector(".container[style*='background-color:rgba(217, 217, 217, 0.5)']");
+        
+        // Añadimos selectores para los elementos de proyectos
+        const proyectoItems = document.querySelectorAll(".proyecto-item");
+        const proyectosContainer = document.getElementById("proyectosContainer");
+        
         boton.addEventListener("click", function () {
             document.body.classList.toggle("dark-mode");
-
+            
             if (document.body.classList.contains("dark-mode")) {
+                // Código existente para botón y navegación
                 boton.textContent = "☀️ Modo Claro";
                 boton.classList.remove("btn-dark");
                 boton.classList.add("btn-light");
+                
+                navLinks.forEach(link => {
+                    link.style.color = "#ffffff";
+                });
+                
+                inputs.forEach(input => {
+                    input.style.backgroundColor = "#333";
+                    input.style.color = "#ffffff";
+                    input.style.borderColor = "#555";
+                });
+                
+                if (formContainer) {
+                    formContainer.style.backgroundColor = "rgba(50, 50, 50, 0.9)";
+                    formContainer.classList.remove("border-light");
+                    formContainer.classList.add("border-dark");
+                }
+                
+                // Estilos para elementos de proyectos en modo oscuro
+                proyectoItems.forEach(item => {
+                    item.style.backgroundColor = "#2a2a2a";
+                    item.style.color = "#ffffff";
+                    item.style.boxShadow = "2px 2px 5px rgba(255, 255, 255, 0.1)";
+                });
+                
+                // Buscar todos los h3 y p dentro de los proyectos para asegurarnos que el texto sea visible
+                proyectoItems.forEach(item => {
+                    const headings = item.querySelectorAll("h3");
+                    const paragraphs = item.querySelectorAll("p");
+                    
+                    headings.forEach(h => h.style.color = "#ffffff");
+                    paragraphs.forEach(p => p.style.color = "#dddddd");
+                });
+                
+                // Si hay un mensaje de "No hay proyectos" también cambiamos su color
+                if (proyectosContainer) {
+                    const emptyMessage = proyectosContainer.querySelector("p:not(.proyecto-item p)");
+                    if (emptyMessage) {
+                        emptyMessage.style.color = "#ffffff";
+                    }
+                }
+                
             } else {
+                // Restaurar estilos originales
                 boton.textContent = "🌙 Modo Nocturno";
                 boton.classList.remove("btn-light");
                 boton.classList.add("btn-dark");
+                
+                navLinks.forEach(link => {
+                    link.style.color = "";
+                });
+                
+                inputs.forEach(input => {
+                    input.style.backgroundColor = "";
+                    input.style.color = "";
+                    input.style.borderColor = "";
+                });
+                
+                if (formContainer) {
+                    formContainer.style.backgroundColor = "rgba(217, 217, 217, 0.5)";
+                    formContainer.classList.remove("border-dark");
+                    formContainer.classList.add("border-light");
+                }
+                
+                // Restaurar elementos de proyectos
+                proyectoItems.forEach(item => {
+                    item.style.backgroundColor = "";
+                    item.style.color = "";
+                    item.style.boxShadow = "";
+                    
+                    const headings = item.querySelectorAll("h3");
+                    const paragraphs = item.querySelectorAll("p");
+                    
+                    headings.forEach(h => h.style.color = "");
+                    paragraphs.forEach(p => p.style.color = "");
+                });
+                
+                // Restaurar mensaje vacío si existe
+                if (proyectosContainer) {
+                    const emptyMessage = proyectosContainer.querySelector("p:not(.proyecto-item p)");
+                    if (emptyMessage) {
+                        emptyMessage.style.color = "";
+                    }
+                }
             }
         });
+        
+        // Observador para detectar nuevos elementos de proyectos añadidos dinámicamente
+        const observer = new MutationObserver(mutations => {
+            if (document.body.classList.contains("dark-mode")) {
+                const newProyectoItems = document.querySelectorAll(".proyecto-item");
+                
+                newProyectoItems.forEach(item => {
+                    // Solo aplicar estilos a elementos que no los tengan ya
+                    if (item.style.backgroundColor !== "rgb(42, 42, 42)") {
+                        item.style.backgroundColor = "#2a2a2a";
+                        item.style.color = "#ffffff";
+                        item.style.boxShadow = "2px 2px 5px rgba(255, 255, 255, 0.1)";
+                        
+                        const headings = item.querySelectorAll("h3");
+                        const paragraphs = item.querySelectorAll("p");
+                        
+                        headings.forEach(h => h.style.color = "#ffffff");
+                        paragraphs.forEach(p => p.style.color = "#dddddd");
+                    }
+                });
+            }
+        });
+        
+        // Iniciar observación solo si existe el contenedor de proyectos
+        if (proyectosContainer) {
+            observer.observe(proyectosContainer, { childList: true, subtree: true });
+        }
     </script>
     
 </body>

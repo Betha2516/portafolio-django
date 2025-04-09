@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <nav class="navbar sticky-top navbar-expand-lg navbar-custom fw-bold" id="navbar">
     <div class="container-fluid justify-content-between">
-        <a class="navbar-brand me-3 " href="{% url 'home' %}">Nuestro portafolio</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Nuestro portafolio</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,7 +15,7 @@
                     <a class="nav-link" href="#somos_nosotros">Somos nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#proyectos">Proyectos</a>
+                    <a class="nav-link" href="{% url 'proyectos_view' %}">Proyectos</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
