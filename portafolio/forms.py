@@ -1,21 +1,28 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Client
+from .models import Client,Project
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
-from .models import Project
+from django.contrib.auth.models import Group
 
 class registro(forms.ModelForm):
     nombre = forms.CharField(max_length=30, required=False)
     apellido = forms.CharField(max_length=30, required=False)
     correo = forms.EmailField()
+    celular = forms.CharField(max_length=20) 
     contraseña = forms.CharField(widget=forms.PasswordInput)
     confirmar_contraseña = forms.CharField(widget=forms.PasswordInput)
+    rol = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, empty_label="Selecciona un rol")
 
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['rol'].queryset = Group.objects.all()
     class Meta:
         model = Client
-        fields = ['celular']  # Client model fields
+        fields = []  
 
+    
 
     def clean(self):
         # VERIFICAR SI LAS CONTRASEñas son iguales
@@ -52,9 +59,14 @@ class registro(forms.ModelForm):
         user.set_password(self.cleaned_data['contraseña'])
         if commit:
             user.save()
+            # Agregar el usuario al grupo seleccionado
+            grupo = self.cleaned_data['rol']
+            user.groups.add(grupo)
+
             client = super().save(commit=False)
             client.user = user
-            client.save()
+            if commit:
+                client.save()
         return user
 
 

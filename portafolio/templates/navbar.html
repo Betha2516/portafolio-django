@@ -10,13 +10,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Inicio</a>
                 </li>
-                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="#somos_nosotros">Somos nosotros</a>
                 </li>
+                {% if user.is_authenticated and perms.portafolio.view_project %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'proyectos_view' %}">Proyectos</a>
+                    <a class="nav-link" href="{% url 'view_project' %}">Proyectos</a>
                 </li>
+                {% endif %}
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>

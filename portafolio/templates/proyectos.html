@@ -1,111 +1,205 @@
-{% extends 'base.html' %}
-{% block content %}
+    {% extends 'base.html' %}
+    {% block content %}
+    <div class="container mb-3" style="margin-top: 90px;">
+        <h1>Proyectos</h1>
+        <input type="text" id="searchProject" placeholder="Buscar proyectos..." class="search-bar">
+        {% if perms.portafolio.add_project %}
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#miModal">
+            Crear proyecto
+        </button>
+        {% endif %}
+        <div id="proyectosContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            {% for project in projects %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.nombre }}</h5>
+                            <p class="card-text">Empresa: {{ project.empresa }}</p>
+                            {% if perms.portafolio.delete_project %}
+                            <button class="eliminar-proyecto btn btn-outline-danger btn-sm mt-2" data-url="{% url 'delete_project' project.id %}">Eliminar</button>
+                            {% endif %}
+                            {% if perms.portafolio.change_project%}
+                            <button class="editar-proyecto btn btn-outline-primary btn-sm mt-2"
+                                    data-id="{{ project.id }}"
+                                    data-nombre="{{ project.nombre }}"
+                                    data-empresa="{{ project.empresa }}">
+                                Editar
+                            </button>
 
-<main id="pagina-control">
-    <a href="https://www.whatsapp.com/?lang=es_LA" class="floating-button"></a>
-    <style>
-        body {
-            background: #e3e3e3;
-        }
-    </style>
-    <div class="panel-proyectos">
-        <div id="projectList">
-            <h1>Proyectos</h1>
-            <input type="text" id="searchProject" placeholder="Buscar proyectos..." class="search-bar">
-            <div id="proyectosContainer">
-                {% for proyecto in proyectos %}
-                <div class="proyecto-item">
-                    <h3>{{ proyecto.nombre }}</h3>
-                    <p>Empresa: {{ proyecto.empresa }}</p>
-                    <button class="eliminar-proyecto" data-id="{{ proyecto.id }}">Eliminar</button>
+                            {%endif%}
+                        </div>
+                    </div>
                 </div>
-                {% empty %}
-                <p>No hay proyectos para mostrar.</p>
-                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'create_project' %}">
+    {% csrf_token %}
+    <!-- Estructura del Modal -->
+        <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="miModalLabel">Crear un nuevo proyecto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre-proyecto" class="form-label">Nombre del proyecto</label>
+                            <input type="text" class="form-control" id="nombre-proyecto" name="proyecto" placeholder="Ingresa el nombre de tu proyecto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre-empresa" class="form-label">Nombre de la empresa</label>
+                            <input type="text" class="form-control" id="nombre-empresa" name="empresa" placeholder="Ingresa el nombre de la empresa ">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary"  >Guardar cambios</button>
+                    </div>
+                </div>
             </div>
         </div>
+    </form>
 
-        <form method="POST" id="projectForm">
-            {% csrf_token %}
-            <h1 id="titulo-control">Servicios</h1>
-            <label for="empresa" class="form-label">Nombre de la empresa</label>
-            <input type="text" class="form-control" id="empresa" name="empresa" required />
-
-            <label for="proyecto" class="form-label">Proyecto</label>
-            <input type="text" class="form-control" id="proyecto" name="proyecto" required />
-
-            <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
-        </form>
-    </div>
-</main>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".eliminar-proyecto").forEach(button => {
-            button.addEventListener("click", async (e) => {
-                const proyectoId = e.target.dataset.id;
-    
-                const response = await fetch(`/eliminar-proyecto/${proyectoId}/`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": "{{ csrf_token }}",
-                    }
-                });
-    
-                const data = await response.json();
-                if (data.success) {
-                    e.target.parentElement.remove(); // Eliminar del DOM
-                } else {
-                    alert("Error al eliminar el proyecto: " + (data.error || ""));
-                }
-            });
-        });
-    });
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchInput = document.getElementById("searchProject");
-        const container = document.getElementById("proyectosContainer");
-    
-        searchInput.addEventListener("input", async () => {
-            const query = searchInput.value;
-    
-            const response = await fetch(`/buscar-proyectos/?q=${encodeURIComponent(query)}`);
-            const result = await response.json();
-    
-            if (result.proyectos.length === 0) {
-                container.innerHTML = `<p>No hay proyectos para mostrar.</p>`;
-                return;
-            }
-    
-            container.innerHTML = result.proyectos.map(p => `
-                <div class="proyecto-item">
-                    <h3>${p.nombre}</h3>
-                    <p>Empresa: ${p.empresa}</p>
-                    <button class="eliminar-proyecto" data-id="${p.id}">Eliminar</button>
+    <!-- Modal para editar proyecto -->
+    <form method="POST" id="formEditarProyecto">
+        {% csrf_token %}
+        <div class="modal fade" id="modalEditarProyecto" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarModalLabel">Editar Proyecto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="edit-proyecto-id">
+                        <div class="mb-3">
+                            <label for="edit-nombre" class="form-label">Nombre del proyecto</label>
+                            <input type="text" class="form-control" id="edit-nombre" name="nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-empresa" class="form-label">Empresa</label>
+                            <input type="text" class="form-control" id="edit-empresa" name="empresa">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
                 </div>
-            `).join("");
-    
-            // Reasignar eventos a los botones "Eliminar"
-            document.querySelectorAll(".eliminar-proyecto").forEach(boton => {
-                boton.addEventListener("click", async (e) => {
-                    const id = e.target.dataset.id;
-                    const res = await fetch(`/eliminar-proyecto/${id}/`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": "{{ csrf_token }}",
-                        },
-                    });
-    
-                    const result = await res.json();
-                    if (result.success) {
-                        e.target.parentElement.remove();
-                    } else {
-                        alert("No se pudo eliminar el proyecto");
-                    }
-                });
+            </div>
+        </div>
+    </form>
+<script>
+function asignarEventosEditar() {
+    document.querySelectorAll('.editar-proyecto').forEach(boton => {
+        boton.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const nombre = this.dataset.nombre;
+            const empresa = this.dataset.empresa;
+
+            document.getElementById('edit-proyecto-id').value = id;
+            document.getElementById('edit-nombre').value = nombre;
+            document.getElementById('edit-empresa').value = empresa;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarProyecto'));
+            modal.show();
+        });
+    });
+}
+
+function asignarEventosEliminar() {
+    document.querySelectorAll('.eliminar-proyecto').forEach(boton => {
+        boton.addEventListener('click', function () {
+            const url = this.dataset.url;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    this.closest('.col').remove();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar:', error);
             });
         });
     });
-    </script>
-    
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Eventos iniciales
+    asignarEventosEditar();
+    asignarEventosEliminar();
+    
+    // Búsqueda de proyectos
+    document.getElementById('searchProject').addEventListener('input', function () {
+        const query = this.value;
+        fetch(`/search_projects/?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('proyectosContainer');
+                container.innerHTML = '';
+                data.proyectos.forEach(proyecto => {
+                    const card = document.createElement('div');
+                    card.classList.add('col');
+                    card.innerHTML = `
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">${proyecto.nombre}</h5>
+                                <p class="card-text">Empresa: ${proyecto.empresa}</p>
+                                ${proyecto.perm_delete ? `<button class="eliminar-proyecto btn btn-outline-danger btn-sm mt-2" data-url="/delete-project/${proyecto.id}/">Eliminar</button>` : ''}
+                                ${proyecto.perm_edit ? `<button class="editar-proyecto btn btn-outline-primary btn-sm mt-2"
+                                        data-id="${proyecto.id}"
+                                        data-nombre="${proyecto.nombre}"
+                                        data-empresa="${proyecto.empresa}">
+                                        Editar
+                                    </button>` : ''}
+                                </div>
+                        </div>`;
+                    container.appendChild(card);
+                });
+
+                // Reasignar eventos después de actualizar el DOM
+                asignarEventosEditar();
+                asignarEventosEliminar();
+            });
+    });
+
+    // Envío del formulario de edición
+    document.getElementById('formEditarProyecto').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById('edit-proyecto-id').value;
+        const nombre = document.getElementById('edit-nombre').value;
+        const empresa = document.getElementById('edit-empresa').value;
+
+        fetch(`/edit-project/${id}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ nombre, empresa })
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                return response.text().then(text => console.error(text));
+            }
+        })
+        .catch(error => console.error('Error al editar:', error));
+    });
+});
+</script>
 {% endblock %}

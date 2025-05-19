@@ -7,12 +7,12 @@ body {
   margin: 0;
   padding: 0;
 }
-.margin-top-5rem
-{
+
+.margin-top-5rem {
   margin-top: 7rem;
 }
 
-.heading-login{
+.heading-login {
   padding: 20px;
   font-size: 16px;
   font-weight: bold;
@@ -41,7 +41,6 @@ main {
   top: 0;
   left: 0;
   background-color: #fff;
-  z-index: 10000;
   width: calc(100% - 6px);
   padding: 12px 17px;
   border-radius: 3px;
@@ -54,22 +53,6 @@ main {
   margin-bottom: 100px;
 }
 
-header .sticky {
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  margin: 0;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  z-index: 10000;
-  width: 100%;
-  padding: 5px 10px;
-  transition: 0.6s;
-  border-radius: 0;
-  border: 0;
-}
-
 .navbar h1 {
   font-size: 30px;
   font-family: 'Roboto', serif;
@@ -78,51 +61,6 @@ header .sticky {
   transition: 0.6s;
 }
 
-.menu-nav li {
-  display: inline-block;
-  margin-right: 15px;
-  transition: 0.6s;
-}
-
-.menu-nav li a {
-  padding: 0;
-  margin: 0;
-  font-family: "Roboto", serif;
-  font-size: 18px;
-  font-weight: 600;
-  opacity: 0.7;
-  text-decoration: none;
-  color: #000;
-}
-
-.menu-nav li button {
-  padding: 7px 16px;
-  border: 1px solid #000;
-  background: #1d005a;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 3px;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  transition: 0.2s ease-in-out;
-}
-
-.menu-nav li:last-child {
-  margin-right: 0;
-}
-
-.menu-nav li a.active {
-  opacity: 1;
-}
-
-.menu-nav li a:hover {
-  background: linear-gradient(90deg, #40c9ff, #e81cff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  opacity: 1;
-}
 
 /* FLOATING BUTTON */
 .floating-button {
@@ -137,574 +75,11 @@ header .sticky {
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
-  z-index: 1000000;
+  z-index: 100;
 }
 
-/* SLIDER */
-.bg-image {
-  background: url("../public/img/coding.png") center/cover no-repeat;
-  width: 100%;
-  height: auto;
-}
-
-.image-1 {
-  background: url("../public/img/coding.png") center/cover no-repeat;
-}
-
-.image-2 {
-  background: url("../public/img/coding2.png") center/cover no-repeat;
-}
-
-.image-3 {
-  background: url("../public/img/coding3.png") center/cover no-repeat;
-}
-
-.splide__slide img {
-  width: 100%;
-  height: auto;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.content {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
-  padding: 80px 20px;
-  margin-top: 130px;
-  margin-left: 100px;
-}
-
-.content h2 {
-  font-family: "Montserrat", serif;
-  font-size: 40px;
-  color: #fff;
-  margin-bottom: 15px;
-}
-
-.content p {
-  font-family: "Montserrat", serif;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 30px;
-}
-
-.buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: flex-start;
-}
-
-.btn {
-  font-size: 1rem;
-  border: 2px solid transparent;
-  cursor: pointer;
-  border-radius: 25px;
-  transition: 0.3s;
-  font-family: "Montserrat", serif;
-  font-weight: 500;
-}
-
-/* Botón con fondo sólido y gradiente */
-.btn.primary {
-  background: linear-gradient(90deg, #40c9ff, #e81cff);
-  color: #fff;
-  border: none;
-}
-
-.btn.primary:hover {
-  opacity: 0.8;
-}
-
-/* Gallery section */
-.container-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 50%;
-  margin: 80px auto;
-}
-
-.container-title .horiz-line {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, #40c9ff, #e81cff);
-}
-
-.container-title h3 {
-  font-family: "Montserrat", serif;
-  font-size: 30px;
-  font-weight: 600;
-}
-
-.container-title h3 span {
-  background-image: linear-gradient(90deg, #40c9ff, #e81cff);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 600;
-  font-family: "Montserrat", serif;
-}
-
-.grid-3col {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 10px;
-  gap: 10px;
-}
-
-.item-grid {
-  width: 100%;
-  min-height: 250px;
-  overflow: hidden;
-  position: relative;
-  border-radius: 5px;
-}
-
-.item-grid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.item-grid .overlay {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-family: "Montserrat", serif;
-  font-weight: 400;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  font-size: 20px;
-  padding: 15px 15px;
-  opacity: 0;
-  transition: 0.6s;
-}
-
-.item-grid .overlay h4 {
-  font-family: "Montserrat", serif;
-  font-weight: 600;
-  color: #fff;
-  font-size: 20px;
-}
-
-.item-grid .overlay p {
-  font-family: "Montserrat", serif;
-  font-weight: 300;
-  color: #fff;
-  font-size: 14px;
-}
-
-.item-grid:hover .overlay {
-  opacity: 1;
-}
-
-/* VIDEO SECTION */
-.gallery-separator {
-  background-color: #f3f3f3;
-  border: none;
-  height: 1px;
-  margin-top: 70px;
-}
-
-.video-section .container-title {
-  flex-direction: row;
-  width: 100%;
-  justify-content: flex-start;
-  padding: 0 100px;
-  margin: 50px 0 15px 0;
-}
-
-.youtube-icon {
-  width: 40px;
-  height: 40px;
-}
-
-.yt-stats {
-  display: flex;
-  justify-content: flex-start;
-  gap: 15px;
-  padding: 0 100px;
-  margin: 0;
-}
-
-.yt-stats span {
-  font-family: "Montserrat", serif;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.views-icon {
-  width: 25px;
-  height: 17px;
-}
-
-.yt-views {
-  display: flex;
-  justify-content: flex-start;
-  gap: 3px;
-  margin: 0;
-}
-
-.video-frame {
-  padding: 0 100px;
-  margin: 20px 0;
-  width: 100%;
-}
-
-/* CONTACT FORM */
-.contact {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  padding: 40px;
-  background-color: #f7f7f7;
-}
-
-.info-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 350px;
-}
-
-.info-login h1 {
-  font-family: "Montserrat", serif;
-  font-size: 26px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.info-login form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-}
-
-.info-login form fieldset {
-  border: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* Estilos de panel de proyecto*/
 
-.info-login form label {
-  font-family: 'Arial', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-}
-
-.info-login form input {
-  width: 100%;
-  /* Asegura que ambos inputs ocupen el mismo ancho */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  /* Evita que padding afecte el tamaño total */
-}
-
-
-.info-login form input:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
-}
-
-.botones-login {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.botones-login button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.botones-login button:hover {
-  background-color: #0056b3;
-}
-
-.botones-login a {
-  text-align: center;
-  display: block;
-  padding: 10px;
-  color: #007bff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.botones-login a:hover {
-  text-decoration: underline;
-}
-
-.info-registro {
-  max-width: 350px;
-  text-align: center;
-}
-
-.info-registro h1 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.info-registro p {
-  font-size: 14px;
-  color: #555;
-}
-
-
-.info-registro {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 5px;
-}
-
-.info-registro h1 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
-}
-
-.info-registro p {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
-}
-
-/*Registro de persona*/
-#pagina-registro {
-  display: flex;
-  flex-direction: column;
-  margin-top: 100px;
-}
-
-#titulo-registro {
-  text-align: center;
-  font-size: 40px;
-}
-
-#registerForm {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #f8f8f8;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
-
-#registerForm label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
-  color: #333;
-}
-
-#registerForm input,
-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-#registerForm input:focus,
-select:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-#registerForm button {
-  width: 100%;
-  padding: 10px;
-  background: #007bff;
-  border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-#registerForm button:hover {
-  background: #0056b3;
-}
-
-/* Estilos generales */
-#pagina-control {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  margin-top: 90px;
-  font-family: Arial, sans-serif;
-}
-
-/* Panel de proyectos */
-.panel-proyectos {
-  display: flex;
-  flex-wrap: wrap;
-  /* Permite que los elementos se apilen en pantallas pequeñas */
-  justify-content: center;
-  width: 100%;
-  min-height: 60vh;
-  background: #e3e3e3;
-  gap: 20px;
-  padding: 20px;
-}
-
-/* Lista de proyectos */
-#projectList {
-  min-height: 30vh;
-  max-height: 60vh;
-  /* Altura máxima para activar el scroll */
-  overflow-y: auto;
-  /* Agrega scroll cuando sea necesario */
-  border-radius: 10px;
-  width: 40%;
-  background: white;
-  padding: 15px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Formulario */
-#projectForm {
-  min-height: 20vh;
-  border-radius: 10px;
-  width: 55%;
-  background: white;
-  padding: 20px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-#projectForm h1 {
-  font-size: 20px;
-  color: #333;
-}
-
-/* Etiquetas */
-#projectForm .form-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #555;
-}
-
-/* Campos de entrada */
-#projectForm input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Botón */
-#projectForm .btn-primary {
-  margin-top: 15px;
-  padding: 10px 15px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-#projectForm .btn-primary:hover {
-  background-color: #0056b3;
-}
-
-/* Seccopn de card de proyecto individual */
-/* Estilos para cada proyecto agregado dinámicamente */
-.proyecto-item {
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  transition: transform 0.2s ease-in-out;
-}
-
-/* Hover para resaltar cada proyecto */
-.proyecto-item:hover {
-  transform: scale(1.02);
-  background: #f8f8f8;
-}
-
-/* Estilos para el título del proyecto */
-.proyecto-item h3 {
-  font-size: 18px;
-  margin: 5px 0;
-  color: #333;
-}
-
-/* Estilos para la descripción */
-.proyecto-item p {
-  font-size: 14px;
-  color: #666;
-  margin: 5px 0;
-}
-
-/* Estilos para el botón de eliminar */
-.eliminar-proyecto {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-/* Hover para el botón de eliminar */
-.eliminar-proyecto:hover {
-  background: #c82333;
-}
 
 /* Barra de búsqueda */
 .search-bar {
@@ -722,91 +97,6 @@ select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-
-/* Responsivo para pantallas pequeñas */
-@media (max-width: 768px) {
-  .panel-proyectos {
-    flex-direction: column;
-    /* Se apilan los elementos */
-    align-items: center;
-  }
-
-  #projectList,
-  #projectForm {
-    width: 90%;
-    /* Ocupan más espacio en pantallas pequeñas */
-  }
-}
-
-
-/* FOOTER */
-.footer-black {
-  background: #000;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.barra-redes {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  flex-wrap: wrap;
-  /* Permite que los elementos se acomoden si hay poco espacio */
-}
-
-/* Estilos para cada columna */
-.columna {
-  list-style: none;
-  padding: 0;
-  flex: 1;
-  text-align: center;
-  min-width: 150px;
-}
-
-.columna li {
-  margin: 8px 0;
-}
-
-.columna a {
-  text-decoration: none;
-  color: #7a5cff;
-  /* Morado vibrante */
-  font-weight: bold;
-  transition: color 0.3s ease, transform 0.2s ease;
-  display: inline-block;
-}
-
-.columna a:hover {
-  color: #d4b5ff;
-  /* Tono más claro */
-  transform: scale(1.1);
-}
-
-/* Estilos para el texto */
-#info-nosotros {
-  flex: 1;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  max-width: 400px;
-  margin-bottom: 10px;
-}
-
-#info_footer,
-#info_copy {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-top: 5px;
 }
 
 /* Celular */
@@ -914,37 +204,6 @@ select:focus {
     text-align: center;
   }
 
-  .contact {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .info-login,
-  .info-registro {
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .barra-redes {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-@media (max-width: 410px) {
-  .item-grid {
-    max-height: 200px;
-  }
-
-  .info-login,
-  .info-registro {
-    max-width: 300px;
-  }
-
-  .columna {
-    min-width: 120px;
-  }
 }
 
 /* Tablet */
@@ -1008,20 +267,6 @@ select:focus {
     margin-left: 75px;
   }
 
-  .contact {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info-login,
-  .info-registro {
-    max-width: 400px;
-  }
-
-  .barra-redes {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 }
 
 /* Tablet (450px - 700px) */
@@ -1080,15 +325,7 @@ select:focus {
     margin: 0 auto;
   }
 
-  .info-login,
-  .info-registro {
-    max-width: 330px;
-  }
 
-  .botones-login button {
-    font-size: 14px;
-    padding: 8px;
-  }
 }
 
 /* Tablet (450px - 500px) */
@@ -1103,6 +340,8 @@ select:focus {
     max-width: 300px;
   }
 }
+
+/* === MODO OSCURO === */
 
 body.dark-mode {
   background-color: #121212;
@@ -1153,27 +392,7 @@ body.dark-mode .gallery {
   color: #fff;
 }
 
-body.dark-mode .contact {
-  background-color: #1f1f1f;
-  color: #fff;
-}
 
-body.dark-mode .footer-black {
-  background-color: #1f1f1f;
-  color: #fff;
-}
-
-.dark-mode .info-login {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode .info-registro {
-  color: #ddd;
-}
-
-/* Estilos para los inputs en modo oscuro */
 .dark-mode input {
   background-color: #333;
   color: white;
@@ -1186,16 +405,6 @@ body.dark-mode .footer-black {
   border: 1px solid #555;
 }
 
-body.dark-mode #registerForm {
-  background-color: #1f1f1f;
-  color: #fff;
-}
-
-body.dark-mode #registerForm label {
-  color: #fff;
-}
-
-/* === MODO OSCURO === */
 .dark-mode {
   background-color: #121212;
   color: #ffffff;
@@ -1207,20 +416,9 @@ body.dark-mode #registerForm label {
   color: white;
 }
 
-.nav-link-light, .navbar-brand-light {
+.nav-link-light,
+.navbar-brand-light {
   color: #ffffff !important;
-}
-
-/* Estilos para el modo oscuro */
-.dark-mode .form-control {
-  background-color: #333 !important;
-  color: #ffffff !important;
-  border-color: #555 !important;
-}
-
-.dark-mode .form-control::placeholder {
-  color: #aaa !important;
-  opacity: 1;
 }
 
 /* Estilos para el modo oscuro */
@@ -1344,16 +542,15 @@ body.dark-mode .nav-link:hover {
 }
 
 .floating-left {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 1000;
-  }
-  
-  .floating-right {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-  }
-  
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.floating-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
