@@ -13,12 +13,14 @@ class Command(BaseCommand):
             'change_project',
             'delete_project',
             'view_project',
+            'view_commit'
             ],
          'editor': [
             'view_project',
             'add_project',
             'change_project',
             'delete_project',
+            'view_commit'
           ],
          'user': [
             'view_project',

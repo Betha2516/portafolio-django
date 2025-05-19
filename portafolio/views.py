@@ -4,7 +4,7 @@ from .models import Client, Project
 from .forms import registro
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
-
+from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -60,7 +60,12 @@ def register(request):
 def view_project(request):
     if request.method == 'GET':
         projects = Project.objects.all()
-        return render(request, 'proyectos.html',  {'projects': projects} )
+        paginator = Paginator(projects,8)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'proyectos.html',  {'page_obj':page_obj})
     return HttpResponse("Método no permitido", status=405)
 
 @login_required
@@ -97,8 +102,8 @@ def create_project(request):
 def delete_project(request, proyecto_id):
     try:
         proyecto = Project.objects.get(id=proyecto_id)
-        proyecto.delete()
         messages.success(request, 'Proyecto eliminado exitosamente')
+        proyecto.delete()
         return JsonResponse({'status': 'success', 'message': 'Proyecto eliminado exitosamente'})
     except Project.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'El proyecto no existe'}, status=404)
