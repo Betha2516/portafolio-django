@@ -12,6 +12,9 @@ urlpatterns = [
         path('delete-project/<int:proyecto_id>/', views.delete_project, name='delete_project'),
         path('search_projects/', views.search_projects, name='search_projects'), 
         path('create-commit/<int:project_id>/', views.create_commit, name='create_commit'),   
-        path('perfil/', views.perfil_usuario, name='perfil_usuario'), 
+        path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+        path('usuarios/', views.lista_usuarios, name='lista_usuarios'),
+        path('usuarios/editar/<int:user_id>/', views.editar_usuario, name='editar_usuario'),
+        path('usuarios/eliminar/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
 ]
 

@@ -5,10 +5,15 @@ from .forms import registro
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import permission_required
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def home(request):
     if request.method == 'GET':
@@ -207,3 +212,94 @@ def perfil_usuario(request):
     }
     
     return render(request, 'perfil_usuario.html', context)
+
+@login_required
+@permission_required('auth.view_user')
+@require_http_methods(["GET"])
+def lista_usuarios(request):
+    # Parámetros de búsqueda y filtrado
+    query = request.GET.get('q', '')
+    
+    # Obtener todos los usuarios ordenados por ID
+    # Usamos select_related o prefetch_related para evitar consultas N+1
+    usuarios = User.objects.all().order_by('id').prefetch_related('groups')
+    
+    # Aplicar filtros de búsqueda si existe una consulta
+    if query:
+        usuarios = usuarios.filter(
+            username__icontains=query
+        ) | usuarios.filter(
+            first_name__icontains=query
+        ) | usuarios.filter(
+            last_name__icontains=query
+        ) | usuarios.filter(
+            email__icontains=query
+        )
+        
+    # Paginación (10 usuarios por página)
+    paginator = Paginator(usuarios, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Contexto para la plantilla
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+    }
+    
+    return render(request, 'lista_usuarios.html', context)
+
+@login_required
+@permission_required('auth.change_user')
+@require_http_methods(["GET", "POST"])
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(User, id=user_id)
+    
+    # Intentar obtener el cliente asociado al usuario
+    try:
+        cliente = Client.objects.get(user=usuario)
+    except Client.DoesNotExist:
+        cliente = None
+    
+    if request.method == 'POST':
+        # Actualizar datos del usuario
+        usuario.username = request.POST.get('username')
+        usuario.first_name = request.POST.get('first_name')
+        usuario.last_name = request.POST.get('last_name')
+        usuario.email = request.POST.get('email')
+        
+        # Si se marca/desmarca is_active
+        is_active = request.POST.get('is_active') == 'on'
+        usuario.is_active = is_active
+        
+        # Guardar cambios del usuario
+        usuario.save()
+        
+        # Actualizar o crear cliente asociado
+        celular = request.POST.get('celular', '')
+        if celular:
+            if cliente:
+                cliente.celular = celular
+                cliente.save()
+            else:
+                Client.objects.create(user=usuario, celular=celular)
+        
+        messages.success(request, f"Usuario {usuario.username} actualizado correctamente.")
+        return redirect('lista_usuarios')
+    
+    # Preparar contexto para GET
+    context = {
+        'usuario': usuario,
+        'cliente': cliente,
+    }
+    
+    return render(request, 'editar_usuario.html', context)
+
+@login_required
+@permission_required('auth.delete_user')
+def eliminar_usuario(request, user_id):
+    if request.method == 'POST':
+        usuario = get_object_or_404(User, id=user_id)
+        usuario.delete()
+        return HttpResponse(status=204)
+    return HttpResponse(status=405)
