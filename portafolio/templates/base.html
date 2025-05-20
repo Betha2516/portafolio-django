@@ -25,7 +25,7 @@
             {% endfor %}
         </div>
 
-        <button id="modoNocturno" class="btn btn-dark floating-left">🌙 Modo Nocturno</button>
+        <button id="modoNocturno" class="btn floating-left" style="background-color:black;">🌙</button>
         {% block content %}{% endblock %}
     </main>
 
@@ -68,8 +68,7 @@
             <p class="m-0">© 2025 Mi Portafolio. Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    
+ 
     <script>
         const boton = document.getElementById("modoNocturno");
         const navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-brand");
@@ -85,7 +84,7 @@
             
             if (document.body.classList.contains("dark-mode")) {
                 // Código existente para botón y navegación
-                boton.textContent = "☀️ Modo Claro";
+                boton.textContent = "☀️";
                 boton.classList.remove("btn-dark");
                 boton.classList.add("btn-light");
                 
