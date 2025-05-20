@@ -10,7 +10,8 @@ class Client(models.Model):
 class Project(models.Model):
     nombre = models.CharField(max_length=100)
     empresa = models.CharField(max_length=100)
-
+    imagen = models.ImageField(upload_to='img/', null=True, blank=True)
+    
     def __str__(self):
         return f"{self.nombre} - {self.empresa}"
     

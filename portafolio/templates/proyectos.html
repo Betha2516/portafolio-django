@@ -20,6 +20,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ project.nombre }}</h5>
                             <p class="card-text">Empresa: {{ project.empresa }}</p>
+                            {% if project.imagen %}
+                                <img src="{{ project.imagen.url }}" class="img-fluid mb-3" alt="Imagen del proyecto">
+                            {% else %}
+                                <img src="/static/img/default-project.jpg" class="img-fluid mb-3" alt="Imagen por defecto">
+                            {% endif %}
                             <button type="button" class="btn btn-outline-info btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modalDetalles{{ project.id }}">
                                 Detalles
                             </button>
@@ -141,7 +146,7 @@
         </nav>
 
     <!-- Modal para crear projecto-->
-    <form method="POST" action="{% url 'create_project' %}">
+    <form method="POST" action="{% url 'create_project' %}" enctype="multipart/form-data">
     {% csrf_token %}
     
         <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
@@ -160,6 +165,13 @@
                             <label for="nombre-empresa" class="form-label">Nombre de la empresa</label>
                             <input type="text" class="form-control" id="nombre-empresa" name="empresa" placeholder="Ingresa el nombre de la empresa ">
                         </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen del proyecto</label>
+                            <input type="file" class="form-control" id="imagen" name="imagen">
+                            {% if project.imagen %}
+                            <p class="mt-2">Imagen actual: <a href="{{ project.imagen.url }}" target="_blank">Ver imagen</a></p>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -171,7 +183,7 @@
     </form>
 
     <!-- Modal para editar proyecto -->
-    <form method="POST" id="formEditarProyecto">
+    <form method="POST" id="formEditarProyecto" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal fade" id="modalEditarProyecto" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -189,6 +201,13 @@
                         <div class="mb-3">
                             <label for="edit-empresa" class="form-label">Empresa</label>
                             <input type="text" class="form-control" id="edit-empresa" name="empresa">
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen del proyecto</label>
+                            <input type="file" class="form-control" id="imagen" name="imagen">
+                            {% if project.imagen %}
+                            <p class="mt-2">Imagen actual: <a href="{{ project.imagen.url }}" target="_blank">Ver imagen</a></p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -69,8 +69,23 @@ class registro(forms.ModelForm):
                 client.save()
         return user
 
-
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['nombre', 'empresa']
+        fields = ['nombre', 'empresa', 'imagen']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'empresa': forms.TextInput(attrs={'class': 'form-control'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'})
+        }
+        
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen')
+        if imagen:
+            # Validar el tipo de archivo
+            if not imagen.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+                raise forms.ValidationError('El archivo debe ser una imagen (PNG, JPG, JPEG o GIF).')
+            # Validar el tamaño (máximo 2 MB)
+            if imagen.size > 2 * 1024 * 1024:
+                raise forms.ValidationError('El tamaño máximo de la imagen es 2 MB.')
+        return imagen

@@ -77,7 +77,8 @@ def create_project(request):
     if request.method == 'POST':
         empresa = request.POST.get('empresa', '').strip()
         nombre = request.POST.get('proyecto', '').strip()
-         # Validación de campos vacíos
+        
+        # Validación de campos vacíos
         if not empresa or not nombre:
             messages.error(request, 'Todos los campos son obligatorios.')
             return redirect('view_project')
@@ -86,14 +87,22 @@ def create_project(request):
         if Project.objects.filter(empresa=empresa, nombre=nombre).exists():
             messages.error(request, 'Ya existe un proyecto con ese nombre y empresa.')
             return redirect('view_project')
+            
+        # Crear el proyecto
         project = Project(
-            empresa = empresa,
-            nombre = nombre
+            empresa=empresa,
+            nombre=nombre
         )
+        
+        # Manejo de la imagen
+        if 'imagen' in request.FILES:
+            project.imagen = request.FILES['imagen']
+        
         project.save()
-        messages.success(request, 'Proyecto agregado exitosamente') # ⚠️ Agrega esta línea
+        messages.success(request, 'Proyecto agregado exitosamente')
         return redirect('view_project')
-    return HttpResponse("Método no permitido",status=405)
+    return HttpResponse("Método no permitido", status=405)
+
 
 @login_required
 @permission_required('portafolio.delete_project')
@@ -130,16 +139,19 @@ def search_projects(request):
 def edit_project(request, proyecto_id):
     try:
         project = Project.objects.get(id=proyecto_id)
-
         if request.method == 'POST':
             project.nombre = request.POST.get('nombre')
             project.empresa = request.POST.get('empresa')
+            
+            # Manejo de la imagen
+            if 'imagen' in request.FILES:
+                # Si se proporciona una nueva imagen, actualizar
+                project.imagen = request.FILES['imagen']
+            
             project.save()
             messages.success(request, 'Proyecto actualizado exitosamente')
             return redirect('view_project')
-
         return redirect('view_project')
-
     except Project.DoesNotExist:
         messages.error(request, 'El proyecto no existe')
         return redirect('view_project')
