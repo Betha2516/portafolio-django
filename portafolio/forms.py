@@ -14,18 +14,15 @@ class registro(forms.ModelForm):
     confirmar_contraseña = forms.CharField(widget=forms.PasswordInput)
     rol = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, empty_label="Selecciona un rol")
 
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['rol'].queryset = Group.objects.all()
     class Meta:
         model = Client
-        fields = []  
-
-    
+        fields = []
 
     def clean(self):
-        # VERIFICAR SI LAS CONTRASEñas son iguales
+        # Verificación de que las contraseñas sean iguales
         cleaned_data = super().clean()
         password = cleaned_data.get('contraseña')
         confirm_password = cleaned_data.get('confirmar_contraseña')
@@ -49,7 +46,7 @@ class registro(forms.ModelForm):
         return celular
 
     def save(self, commit=True):
-        # guardar el usuario en ambas tablas
+        # Guardar el usuario en la tabla User
         user = User(
             username=self.cleaned_data['correo'],
             first_name=self.cleaned_data['nombre'],
@@ -57,16 +54,19 @@ class registro(forms.ModelForm):
             email=self.cleaned_data['correo']
         )
         user.set_password(self.cleaned_data['contraseña'])
+
         if commit:
             user.save()
-            # Agregar el usuario al grupo seleccionado
+            # Agregar al grupo
             grupo = self.cleaned_data['rol']
             user.groups.add(grupo)
 
+            # Crear instancia de Client y asignar campos manualmente
             client = super().save(commit=False)
             client.user = user
-            if commit:
-                client.save()
+            client.celular = self.cleaned_data['celular']  # <- Asignación manual del celular
+            client.save()
+
         return user
 
 class ProjectForm(forms.ModelForm):

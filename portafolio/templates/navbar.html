@@ -18,7 +18,13 @@
                     <a class="nav-link" href="{% url 'view_project' %}">Proyectos</a>
                 </li>
                 {% endif %}
-
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'perfil_usuario' %}">
+                        <i class="bi bi-person-circle"></i> Perfil
+                    </a>
+                </li>
+                {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
