@@ -13,17 +13,21 @@ class Command(BaseCommand):
             'change_project',
             'delete_project',
             'view_project',
-            'view_commit'
+            'view_comment',
+            'add_comment',
             ],
          'editor': [
             'view_project',
             'add_project',
             'change_project',
             'delete_project',
-            'view_commit'
+            'view_comment',
+            'add_comment',
           ],
          'user': [
             'view_project',
+            'add_comment',
+            'view_comment',
           ],
       }
 

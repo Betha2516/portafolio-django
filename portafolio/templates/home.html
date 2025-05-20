@@ -95,6 +95,48 @@ Inicio
 </div>
 
 <!-- Comentarios -->
- 
+{% if perms.portafolio.view_comment %}
+<div class="container mt-5 mb-4">
+    <h2 class="text-center mb-4">Comentarios</h2>
+
+    {% if comentarios %}
+        <div class="row row-cols-1 g-3">
+            {% for comentario in comentarios %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="card-title mb-0 text-primary">{{ comentario.author.username }}</h6>
+                                <small class="text-muted">{{ comentario.created_at|date:"d M Y, H:i" }}</small>
+                            </div>
+                            <p class="card-text">{{ comentario.content }}</p>
+
+                            {% if comentario.rating %}
+                                <div class="mt-2">
+                                    <span class="text-warning">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= comentario.rating %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                    <small class="text-muted ms-2">Calificación: {{ comentario.rating }} / 5</small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No hay comentarios disponibles.
+        </div>
+    {% endif %}
+</div>
+{% endif %}
+
 
 {%endblock%}

@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import Client, Project
+from .models import Client, Project, Comment
 from .forms import registro
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
@@ -16,8 +16,8 @@ def home(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             cliente, created = Client.objects.get_or_create(user=request.user)
-
-            return render(request, "home.html")
+            comentarios = Comment.objects.all().order_by('-created_at')
+            return render(request, "home.html", {'comentarios': comentarios})
         else:
             return render(request, "home.html")
         
@@ -30,7 +30,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Inicio sesion correctamente")
-            return render(request, "home.html")
+            return redirect("home")
         else:
             messages.error(request, "Error al iniciar sesión")
             return redirect("login")
@@ -58,15 +58,14 @@ def register(request):
 @permission_required('portafolio.view_project')
 @require_http_methods(["GET"])
 def view_project(request):
-    if request.method == 'GET':
-        projects = Project.objects.all()
-        paginator = Paginator(projects,8)
-
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-        return render(request, 'proyectos.html',  {'page_obj':page_obj})
-    return HttpResponse("Método no permitido", status=405)
+    query = request.GET.get('q', '')
+    projects = Project.objects.all().order_by('nombre')
+    if query:
+        projects = projects.filter(nombre__icontains=query)
+    paginator = Paginator(projects, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'proyectos.html', {'page_obj': page_obj, 'query': query})
 
 @login_required
 @permission_required('portafolio.add_project')
@@ -144,4 +143,37 @@ def edit_project(request, proyecto_id):
     except Project.DoesNotExist:
         messages.error(request, 'El proyecto no existe')
         return redirect('view_project')
+
+@login_required
+@require_http_methods(['POST'])
+@permission_required('portafolio.add_comment', raise_exception=True)
+def create_commit(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+
+    content = request.POST.get("content")
+    rating = request.POST.get("rating") 
+
+    if not content:
+        messages.error(request, "No se realizó el comentario: falta el contenido.")
+        return redirect('view_project') 
+
+    try:
+        rating = int(rating) if rating else None
+        if rating and (rating < 1 or rating > 5):
+            messages.error(request, "La calificación debe estar entre 1 y 5.")
+            return redirect('view_project')
+    except ValueError:
+        messages.error(request, "La calificación proporcionada no es válida.")
+        return redirect('view_project')
+
+    Comment.objects.create(
+        project=project,
+        author=request.user,
+        content=content,
+        rating=rating
+    )
+    messages.success(request, "Comentario creado correctamente.")
+    return redirect('view_project')
+
+
 
