@@ -95,6 +95,8 @@
                         </div>
                     </div>
                 </div>
+
+                
                 {%empty%}
                 <p class="text-center">No hay proyectos</P>
             {% endfor %}
@@ -219,6 +221,25 @@
         </div>
     </form>
 
+    <!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmarEliminacionLabel">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar este proyecto?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!--Modal para crear comentario-->
 <form method="POST" id="formComentarProyecto" action="">
     {% csrf_token %}
@@ -261,6 +282,9 @@
 </form>
 
 <script>
+let urlAEliminar = null;
+let botonAEliminar = null;
+
 function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -296,23 +320,13 @@ function asignarEventosEditar() {
 function asignarEventosEliminar() {
     document.querySelectorAll('.eliminar-proyecto').forEach(boton => {
         boton.addEventListener('click', function () {
-            const url = this.dataset.url;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    this.closest('.col').remove();
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error al eliminar:', error));
+            // Guardar datos para eliminar
+            urlAEliminar = this.dataset.url;
+            botonAEliminar = this;
+
+            // Mostrar el modal de confirmación
+            const modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionModal'));
+            modal.show();
         });
     });
 }
@@ -344,23 +358,29 @@ function manejarFormularioEdicion() {
         const id = document.getElementById('edit-proyecto-id').value;
         const nombre = document.getElementById('edit-nombre').value;
         const empresa = document.getElementById('edit-empresa').value;
+        const imagenInput = document.getElementById('imagen');
 
-        fetch(`/edit-project/${id}/`, {
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('empresa', empresa);
+        if (imagenInput.files.length > 0) {
+            formData.append('imagen', imagenInput.files[0]);
+        }
+        formData.append('csrfmiddlewaretoken', document.querySelector('#formEditarProyecto [name=csrfmiddlewaretoken]').value);
+
+        fetch(`/update-project/${id}/`, {
             method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({ nombre, empresa })
-        })
-        .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url;
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                location.reload(); // recargar para ver cambios
             } else {
-                return response.text().then(text => console.error(text));
+                alert('Error al actualizar el proyecto.');
             }
-        })
-        .catch(error => console.error('Error al editar:', error));
+        }).catch(err => {
+            console.error(err);
+            alert('Error de red al actualizar el proyecto.');
+        });
     });
 }
 
@@ -368,6 +388,27 @@ function manejarFormularioEdicion() {
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('keyup', debounce(submitSearch, 500));
+    document.getElementById('btnConfirmarEliminar').addEventListener('click', function () {
+        if (!urlAEliminar || !botonAEliminar) return;
+
+        fetch(urlAEliminar, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                botonAEliminar.closest('.col').remove();
+                bootstrap.Modal.getInstance(document.getElementById('confirmarEliminacionModal')).hide();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error al eliminar:', error));
+    });
 
     asignarEventosEditar();
     asignarEventosEliminar();

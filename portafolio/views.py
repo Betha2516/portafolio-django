@@ -114,8 +114,9 @@ def create_project(request):
 def delete_project(request, proyecto_id):
     try:
         proyecto = Project.objects.get(id=proyecto_id)
-        messages.success(request, 'Proyecto eliminado exitosamente')
+        
         proyecto.delete()
+        messages.success(request, 'Proyecto eliminado exitosamente')
         return JsonResponse({'status': 'success', 'message': 'Proyecto eliminado exitosamente'})
     except Project.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'El proyecto no existe'}, status=404)
