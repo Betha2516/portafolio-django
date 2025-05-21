@@ -65,7 +65,7 @@ def view_project(request):
     projects = Project.objects.all().order_by('nombre')
     if query:
         projects = projects.filter(nombre__icontains=query)
-    paginator = Paginator(projects, 8)
+    paginator = Paginator(projects, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'proyectos.html', {'page_obj': page_obj, 'query': query})
@@ -294,7 +294,7 @@ def editar_usuario(request, user_id):
         'cliente': cliente,
     }
     
-    return render(request, 'editar_usuario.html', context)
+    return render(request, 'editar_usuarios.html', context)
 
 @login_required
 @permission_required('auth.delete_user')
