@@ -243,59 +243,17 @@ def lista_usuarios(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
+    # Obtener todos los grupos para el formulario de edición
+    groups = Group.objects.all()
+    
     # Contexto para la plantilla
     context = {
         'page_obj': page_obj,
         'query': query,
+        'groups': groups
     }
     
     return render(request, 'lista_usuarios.html', context)
-
-@login_required
-@permission_required('auth.change_user')
-@require_http_methods(["GET", "POST"])
-def editar_usuario(request, user_id):
-    usuario = get_object_or_404(User, id=user_id)
-    
-    # Intentar obtener el cliente asociado al usuario
-    try:
-        cliente = Client.objects.get(user=usuario)
-    except Client.DoesNotExist:
-        cliente = None
-    
-    if request.method == 'POST':
-        # Actualizar datos del usuario
-        usuario.username = request.POST.get('username')
-        usuario.first_name = request.POST.get('first_name')
-        usuario.last_name = request.POST.get('last_name')
-        usuario.email = request.POST.get('email')
-        
-        # Si se marca/desmarca is_active
-        is_active = request.POST.get('is_active') == 'on'
-        usuario.is_active = is_active
-        
-        # Guardar cambios del usuario
-        usuario.save()
-        
-        # Actualizar o crear cliente asociado
-        celular = request.POST.get('celular', '')
-        if celular:
-            if cliente:
-                cliente.celular = celular
-                cliente.save()
-            else:
-                Client.objects.create(user=usuario, celular=celular)
-        
-        messages.success(request, f"Usuario {usuario.username} actualizado correctamente.")
-        return redirect('lista_usuarios')
-    
-    # Preparar contexto para GET
-    context = {
-        'usuario': usuario,
-        'cliente': cliente,
-    }
-    
-    return render(request, 'editar_usuario.html', context)
 
 @login_required
 @permission_required('auth.delete_user', raise_exception=True)
@@ -307,6 +265,7 @@ def eliminar_usuario(request, user_id):
     return HttpResponse(status=405)
 
 @login_required
+@permission_required('auth.change_user', raise_exception=True)
 def editar_usuario(request, user_id):
     usuario = get_object_or_404(User, id=user_id)
     
@@ -315,35 +274,55 @@ def editar_usuario(request, user_id):
         if form.is_valid():
             user = form.save(commit=False)
             
-            grupos_seleccionados = form.cleaned_data.get('grupos')
+            # Manejar rol (ahora solo uno)
+            rol_seleccionado = form.cleaned_data.get('rol')
+            # Limpiar todos los grupos actuales
             user.groups.clear()
-            for grupo in grupos_seleccionados:
-                user.groups.add(grupo)
+            # Añadir el nuevo rol seleccionado
+            if rol_seleccionado:
+                user.groups.add(rol_seleccionado)
             
             user.save()
             
+            # Actualizar o crear cliente 
             celular = form.cleaned_data.get('celular')
-            if celular:
-                cliente, created = Client.objects.get_or_create(user=user)
-                cliente.celular = celular
-                cliente.save()
+            cliente, created = Client.objects.get_or_create(user=user)
+            cliente.celular = celular
+            cliente.save()
             
             messages.success(request, f"Usuario {user.username} actualizado correctamente.")
-            return redirect('lista_usuarios')
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'message': f"Usuario {user.username} actualizado correctamente."})
+            else:
+                messages.success(request, f"Usuario {user.username} actualizado correctamente.")
+                return redirect('lista_usuarios')
+
+        else:
+            # Si hay errores de validación
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                # Para solicitudes AJAX, devolver errores en formato JSON
+                errors = {field: error for field, error in form.errors.items()}
+                return JsonResponse({'success': False, 'errors': errors}, status=400)
     else:
+        # Para solicitudes GET, obtener datos iniciales
         initial_data = {
             'username': usuario.username,
             'first_name': usuario.first_name,
             'last_name': usuario.last_name,
             'email': usuario.email,
-            'grupos': usuario.groups.all(),
         }
         
+        # Añadir celular si existe el cliente
         try:
             if hasattr(usuario, 'client') and usuario.client:
                 initial_data['celular'] = usuario.client.celular
         except Client.DoesNotExist:
             pass
+            
+        # Establecer el rol actual (el primero si tiene varios)
+        if usuario.groups.exists():
+            initial_data['rol'] = usuario.groups.first()
             
         form = EditUserForm(initial=initial_data, instance=usuario)
     

@@ -16,16 +16,6 @@
                 </div>
             </div>
             
-            <!-- Mensajes de sistema -->
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            
             <!-- Tabla de usuarios -->
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -66,9 +56,9 @@
                                 </td>
                                 <td class="align-middle">
                                     <div class="btn-group" role="group">
-                                        <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-warning btn-sm">
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ usuario.id }}">
                                             <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                        </button>
                                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ usuario.id }}">
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -178,6 +168,86 @@
   </div>
 </div>
 {% endfor %}
+<!-- Modal para editar usuario con validaciones -->
+{% for usuario in page_obj %}
+<div class="modal fade" id="editModal{{ usuario.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ usuario.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel{{ usuario.id }}">Editar Usuario: {{ usuario.username }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="{% url 'editar_usuario' usuario.id %}" class="form-editar-usuario" data-user-id="{{ usuario.id }}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <!-- Mensajes de error -->
+          <div class="alert alert-danger validation-errors" style="display: none;" role="alert">
+            <ul class="mb-0 error-list"></ul>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="username{{ usuario.id }}">Usuario<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="username{{ usuario.id }}" name="username" value="{{ usuario.username }}" required>
+                <div class="invalid-feedback username-error"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email{{ usuario.id }}">Email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email{{ usuario.id }}" name="email" value="{{ usuario.email }}" required>
+                <div class="invalid-feedback email-error"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="first_name{{ usuario.id }}">Nombre<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="first_name{{ usuario.id }}" name="first_name" value="{{ usuario.first_name }}" required>
+                <div class="invalid-feedback first_name-error"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="last_name{{ usuario.id }}">Apellido<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="last_name{{ usuario.id }}" name="last_name" value="{{ usuario.last_name }}" required>
+                <div class="invalid-feedback last_name-error"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="celular{{ usuario.id }}">Celular<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="celular{{ usuario.id }}" name="celular" value="{% if usuario.client %}{{ usuario.client.celular|default:'' }}{% endif %}" required>
+                <div class="invalid-feedback celular-error"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="rol{{ usuario.id }}">Rol<span class="text-danger">*</span></label>
+                <select class="form-select" id="rol{{ usuario.id }}" name="rol" required>
+                  <option value="">Seleccione un rol</option>
+                  {% for grupo in groups %}
+                  <option value="{{ grupo.id }}" {% if grupo in usuario.groups.all %}selected{% endif %}>{{ grupo.name }}</option>
+                  {% endfor %}
+                </select>
+                <div class="invalid-feedback rol-error"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -210,6 +280,122 @@
                 }
             });
         });
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Código existente para eliminación...
+        
+        // Código mejorado para edición con validaciones
+        const formulariosEdicion = document.querySelectorAll(".form-editar-usuario");
+        
+        formulariosEdicion.forEach(form => {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                
+                const userId = this.dataset.userId;
+                const modalElement = document.getElementById(`editModal${userId}`);
+                const errorContainer = modalElement.querySelector('.validation-errors');
+                const errorList = modalElement.querySelector('.error-list');
+                
+                // Limpiar errores previos
+                errorContainer.style.display = 'none';
+                errorList.innerHTML = '';
+                
+                // Resetear clases de validación en todos los campos
+                modalElement.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+                
+                // Validación del lado del cliente
+                let isValid = true;
+                
+                // Validar campos requeridos
+                modalElement.querySelectorAll('input[required], select[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('is-invalid');
+                        const fieldName = input.name.charAt(0).toUpperCase() + input.name.slice(1);
+                        
+                        // Mostrar mensaje de error específico
+                        const feedbackEl = modalElement.querySelector(`.${input.name}-error`);
+                        if (feedbackEl) {
+                            feedbackEl.textContent = `El campo ${fieldName} es obligatorio`;
+                        }
+                        
+                        isValid = false;
+                    }
+                });
+                
+                // Si no pasa la validación del lado del cliente, detener
+                if (!isValid) {
+                    errorContainer.style.display = 'block';
+                    errorList.innerHTML = '<li>Por favor, complete todos los campos obligatorios.</li>';
+                    return;
+                }
+                
+                // Crear FormData para enviar todos los datos del formulario
+                const formData = new FormData(this);
+                
+                // Añadir cabecera para identificar petición AJAX
+                const headers = {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                };
+                
+                fetch(this.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: headers
+                })
+                .then(response => {
+                    // Convertir respuesta a JSON independientemente del estado
+                    return response.json().then(data => {
+                        // Adjuntar el estado de la respuesta al objeto data
+                        return { ...data, ok: response.ok };
+                    });
+                })
+                .then(data => {
+                    if (data.ok) {
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        modal.hide();
+                    
+                        // Mostrar el mensaje como toast
+                        mostrarToast(data.message); 
+                    } else {
+                        // Mostrar errores de validación del servidor
+                        errorContainer.style.display = 'block';
+                        errorList.innerHTML = '';
+                        
+                        // Procesar errores específicos de campos
+                        if (data.errors) {
+                            Object.keys(data.errors).forEach(fieldName => {
+                                const field = modalElement.querySelector(`[name="${fieldName}"]`);
+                                if (field) {
+                                    field.classList.add('is-invalid');
+                                    
+                                    // Mostrar error específico del campo
+                                    const feedbackEl = modalElement.querySelector(`.${fieldName}-error`);
+                                    if (feedbackEl) {
+                                        feedbackEl.textContent = data.errors[fieldName].join(' ');
+                                    }
+                                }
+                                
+                                // Añadir a la lista general de errores
+                                const errorMsg = `<li>${fieldName}: ${data.errors[fieldName].join(' ')}</li>`;
+                                errorList.innerHTML += errorMsg;
+                            });
+                        } else {
+                            // Error general
+                            errorList.innerHTML = '<li>Hubo un error al procesar el formulario. Por favor revise los datos.</li>';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    errorContainer.style.display = 'block';
+                    errorList.innerHTML = '<li>Ha ocurrido un error al procesar la solicitud. Intente de nuevo más tarde.</li>';
+                });
+            });
         });
     });
 </script>

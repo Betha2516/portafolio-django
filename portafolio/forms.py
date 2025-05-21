@@ -4,6 +4,7 @@ from .models import Client,Project
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
 
 class registro(forms.ModelForm):
     nombre = forms.CharField(max_length=30, required=False)
@@ -91,17 +92,33 @@ class ProjectForm(forms.ModelForm):
         return imagen
     
 class EditUserForm(forms.ModelForm):
-    first_name = forms.CharField(label='Nombre', max_length=30, required=False)
-    last_name = forms.CharField(label='Apellido', max_length=30, required=False)
+    first_name = forms.CharField(label='Nombre', max_length=30, required=True)
+    last_name = forms.CharField(label='Apellido', max_length=30, required=True)
     email = forms.EmailField(label='Email', required=True)
-    celular = forms.CharField(label='Celular', max_length=15, required=False)
-    grupos = forms.ModelMultipleChoiceField(
+    celular = forms.CharField(label='Celular', max_length=15, required=True)
+    
+    # Cambiar de ModelMultipleChoiceField a ModelChoiceField para permitir solo un rol
+    rol = forms.ModelChoiceField(
         queryset=Group.objects.all(),
-        label='Roles',
-        required=False,
-        widget=forms.CheckboxSelectMultiple
+        label='Rol',
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        
+        # Verificar que todos los campos tengan datos
+        for field_name, field_value in cleaned_data.items():
+            if field_value is None or field_value == '':
+                raise ValidationError(f"El campo {field_name} es obligatorio.")
+        
+        # Verificar que se haya seleccionado un rol
+        if 'rol' not in cleaned_data or cleaned_data['rol'] is None:
+            raise ValidationError("Debe seleccionar un rol para el usuario.")
+            
+        return cleaned_data
