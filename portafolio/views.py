@@ -66,7 +66,7 @@ def view_project(request):
     projects = Project.objects.all().order_by('nombre')
     if query:
         projects = projects.filter(nombre__icontains=query)
-    paginator = Paginator(projects, 8)
+    paginator = Paginator(projects, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'proyectos.html', {'page_obj': page_obj, 'query': query})
@@ -256,6 +256,55 @@ def lista_usuarios(request):
     return render(request, 'lista_usuarios.html', context)
 
 @login_required
+<<<<<<< HEAD
+=======
+@permission_required('auth.change_user')
+@require_http_methods(["GET", "POST"])
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(User, id=user_id)
+    
+    # Intentar obtener el cliente asociado al usuario
+    try:
+        cliente = Client.objects.get(user=usuario)
+    except Client.DoesNotExist:
+        cliente = None
+    
+    if request.method == 'POST':
+        # Actualizar datos del usuario
+        usuario.username = request.POST.get('username')
+        usuario.first_name = request.POST.get('first_name')
+        usuario.last_name = request.POST.get('last_name')
+        usuario.email = request.POST.get('email')
+        
+        # Si se marca/desmarca is_active
+        is_active = request.POST.get('is_active') == 'on'
+        usuario.is_active = is_active
+        
+        # Guardar cambios del usuario
+        usuario.save()
+        
+        # Actualizar o crear cliente asociado
+        celular = request.POST.get('celular', '')
+        if celular:
+            if cliente:
+                cliente.celular = celular
+                cliente.save()
+            else:
+                Client.objects.create(user=usuario, celular=celular)
+        
+        messages.success(request, f"Usuario {usuario.username} actualizado correctamente.")
+        return redirect('lista_usuarios')
+    
+    # Preparar contexto para GET
+    context = {
+        'usuario': usuario,
+        'cliente': cliente,
+    }
+    
+    return render(request, 'editar_usuarios.html', context)
+
+@login_required
+>>>>>>> 2d3aa7a5ccf23c3a253f562a62f184e7cb4810cb
 @permission_required('auth.delete_user', raise_exception=True)
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
