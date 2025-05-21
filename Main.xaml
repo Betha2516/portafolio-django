@@ -1,0 +1,296 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.ComponentModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="735,2670" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence sap:VirtualizedContainerService.HintSize="518,2647" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <uix:NApplicationCard DisplayName="Browser" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="484,2564" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff">
+        <uix:NApplicationCard.Body>
+          <ActivityAction x:TypeArguments="x:Object">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="450,2324" sap2010:WorkflowViewState.IdRef="Sequence_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Iniciar sesión'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,225" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1" CVScreenId="408d897d-f4cb-4ea4-b223-4ac68a665e99" ContentHash="Ivl2Q56V8USOOz9IhqWuRw" CvElementArea="1189, 101, 133, 42" CvTextArea="1203, 113, 104, 16" CvTextArgument="Iniciar sesión" CvType="Button" DesignTimeRectangle="1190, 104, 130, 38" ElementType="Text" FullSelectorArgument="&lt;webctrl aaname='Iniciar sesión' parentid='navbarScroll' tag='A' /&gt;" Guid="7fabeb31-8319-4afb-9d38-00e10f4f5a40" InformativeScreenshot="64dc765543b5ac2b80424ecedba8de26.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/PZS172JcokOojgO8e4Ul-w" ScopeSelectorArgument="&lt;html app='msedge.exe' title='Inicio' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                </uix:NClick.Target>
+                <uix:NClick.VerifyOptions>
+                  <uix:VerifyExecutionOptions DisplayName="Element 'Element 'Nuestro portafolio Inic…''" Mode="Appears">
+                    <uix:VerifyExecutionOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionOptions.Retry>
+                    <uix:VerifyExecutionOptions.Target>
+                      <uix:TargetAnchorable BrowserURL="127.0.0.1/login" ContentHash="p2xPtCfZGUWzhwXHbP2Z-A" DesignTimeRectangle="8, 82, 1366, 646" FuzzySelectorArgument="&lt;ctrl name='Login: Microsoft Edge' role='pane' matching:name='fuzzy' fuzzylevel:name='0.0' /&gt;&lt;ctrl automationid='' role='pane' matching:automationid='fuzzy' fuzzylevel:automationid='0.0' check:fulltext='Nuestro portafolio Inicio Somos nosotros Iniciar sesión&amp;#xD;&amp;#xA; Inicia Sesion Usuario Contraseña Iniciar sesión No estás registrado? Regístrate Somos una empresa creativa, ofrecemos servicios e ideas innovadoras. Síguenos Instagram Facebook X Enlaces Inicio Sobre nosotros Contacto&amp;#xD;&amp;#xA;© 2025 Mi Portafolio. Todos los derechos reservados.' /&gt;" Guid="a34f24f0-9d2e-4ab0-a3c0-08f42f1cb694" InformativeScreenshot="04c1ce2d2f9888ee71439c2ce2c4f482.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/TB93lT7G70-hBjCtCrViJw" ScopeSelectorArgument="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='Login - Personal: Microsoft​ Edge' /&gt;" SearchSteps="FuzzySelector" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+                        <uix:TargetAnchorable.Anchors>
+                          <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                            <uix:Target CVScreenId="975ed8b6-fb70-4b87-9bb5-c4f6b9f85643" CvElementArea="86, 44, 1087, 34" CvType="InputBox" DesignTimeRectangle="118, 48, 995, 28" ElementType="InputBox" FullSelectorArgument="&lt;ctrl name='Login: Microsoft Edge' role='pane' /&gt;&lt;ctrl name='Barra de la aplicación' role='tool bar' /&gt;&lt;ctrl name='Barra de direcciones y búsqueda' role='editable text' /&gt;" Guid="fbea02f5-7fa9-46cd-aaee-be792d8818f2" SearchSteps="Selector, CV" />
+                          </scg:List>
+                        </uix:TargetAnchorable.Anchors>
+                      </uix:TargetAnchorable>
+                    </uix:VerifyExecutionOptions.Target>
+                    <uix:VerifyExecutionOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionOptions.Timeout>
+                  </uix:VerifyExecutionOptions>
+                </uix:NClick.VerifyOptions>
+              </uix:NClick>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'Usuario'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,286" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Text="samuel.betancur@upb.edu.co" Version="V4">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/login" CVScreenId="c9888e14-5c36-4c52-937f-3f26f1d0c630" ContentHash="zvh9k8UrpUWoS4Nh3WhNzw" CvElementArea="444, 285, 477, 39" CvType="InputBox" DesignTimeRectangle="445, 286, 477, 38" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='usernameInput' tag='INPUT' type='text' class='form-control ' placeholder='Ingresa aquí tu correo' aaname='Usuario' matching:id='fuzzy' fuzzylevel:id='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' /&gt;" Guid="8008821c-7e20-47d8-afdb-b66cbc55619b" InformativeScreenshot="2e1664802006d1e0b16c1b22c1d1bda9.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/uhwEktw3Ikm9_JqhOeuPuQ" ScopeSelectorArgument="&lt;html app='msedge.exe' title='Login' /&gt;" SearchSteps="FuzzySelector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                        <uix:Target CVScreenId="c9888e14-5c36-4c52-937f-3f26f1d0c630" CvTextArea="652, 257, 62, 15" CvTextArgument="Usuario" CvType="Text" DesignTimeRectangle="653, 254, 61, 24" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='form-label' aaname='Usuario' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' check:innerText='Usuario' /&gt;" Guid="0934cbb1-1992-4686-8fb8-aa5c522ad28b" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+                <uix:NTypeInto.VerifyOptions>
+                  <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                    <uix:VerifyExecutionTypeIntoOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionTypeIntoOptions.Retry>
+                    <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                  </uix:VerifyExecutionTypeIntoOptions>
+                </uix:NTypeInto.VerifyOptions>
+              </uix:NTypeInto>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'Contraseña'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,286" sap2010:WorkflowViewState.IdRef="NTypeInto_2" IsPassword="True" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Text="portafolio2025" Version="V4">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/login" CVScreenId="b1b5e4e9-1eda-4a53-904a-f54ecc3b4461" ContentHash="2RPd6mOsaEmiWP4mMYEZHQ" CvElementArea="445, 371, 477, 39" CvType="InputBox" DesignTimeRectangle="445, 372, 477, 38" ElementType="InputBoxPassword" FuzzySelectorArgument="&lt;webctrl id='passwordInput' tag='INPUT' type='password' class='form-control ' placeholder='Ingresa aquí tu contraseña' aaname='Contraseña' matching:id='fuzzy' fuzzylevel:id='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' /&gt;" Guid="ccae1885-a394-4977-88ee-332ccaa91838" InformativeScreenshot="5800726901d24bf71d914faa6308593c.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/5Fgj7LtQw0WsBvcPiXw7GA" ScopeSelectorArgument="&lt;html app='msedge.exe' title='Login' /&gt;" SearchSteps="FuzzySelector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                        <uix:Target CVScreenId="b1b5e4e9-1eda-4a53-904a-f54ecc3b4461" CvTextArea="636, 343, 93, 15" CvTextArgument="Contraseña" CvType="Text" DesignTimeRectangle="638, 340, 91, 24" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Contraseña' tag='LABEL' type='' class='form-label' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' check:innerText='Contraseña' /&gt;" Guid="c8a1be61-72f7-447c-9d28-8d918aa6dd4e" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+                <uix:NTypeInto.VerifyOptions>
+                  <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                    <uix:VerifyExecutionTypeIntoOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionTypeIntoOptions.Retry>
+                    <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                  </uix:VerifyExecutionTypeIntoOptions>
+                </uix:NTypeInto.VerifyOptions>
+              </uix:NTypeInto>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Iniciar sesión(1)'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,225" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/login" CVScreenId="b2feb7a8-9594-44c0-8c85-3a7fa92b0288" ContentHash="gTma9jlW4kOPvC7XIijBAQ" CvElementArea="617, 424, 133, 42" CvTextArea="632, 436, 104, 16" CvTextArgument="Iniciar sesión" CvType="Button" DesignTimeRectangle="619, 426, 129, 38" ElementType="Button" FullSelectorArgument="&lt;webctrl tag='BUTTON' type='submit' /&gt;" Guid="0b815788-ac14-4fcc-9abe-86cce92fb2bb" InformativeScreenshot="e500445bdb39212579fa3beee7a5bd58.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/mnv5oAEp0kWZh0yYufrmDQ" ScopeSelectorArgument="&lt;html app='msedge.exe' title='Login' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                </uix:NClick.Target>
+                <uix:NClick.VerifyOptions>
+                  <uix:VerifyExecutionOptions DisplayName="Entrada 'Entrada '127.0.0.18000''" Mode="Appears">
+                    <uix:VerifyExecutionOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionOptions.Retry>
+                    <uix:VerifyExecutionOptions.Target>
+                      <uix:TargetAnchorable BrowserURL="127.0.0.1" CVScreenId="ee8ed2e0-6736-4159-a4f3-37f2609e24f4" ContentHash="Ys8EcU8QgUyLlON2zObQow" CvElementArea="82, 44, 1087, 34" CvType="InputBox" DesignTimeRectangle="118, 48, 986, 28" ElementType="InputBox" FullSelectorArgument="&lt;ctrl name='Inicio: Microsoft Edge' role='pane' /&gt;&lt;ctrl name='Barra de la aplicación' role='tool bar' /&gt;&lt;ctrl name='Barra de direcciones y búsqueda' role='editable text' /&gt;" Guid="4a0adfe7-c6a7-4aa9-9c41-cfaa9fd552e0" InformativeScreenshot="5e76f61f64f9b23fdff6161536ff093f.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/MQQaO1Uyuk-9kpGAq4vovQ" ScopeSelectorArgument="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='Inicio - Personal: Microsoft​ Edge' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                    </uix:VerifyExecutionOptions.Target>
+                    <uix:VerifyExecutionOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionOptions.Timeout>
+                  </uix:VerifyExecutionOptions>
+                </uix:NClick.VerifyOptions>
+              </uix:NClick>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Proyectos'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,225" sap2010:WorkflowViewState.IdRef="NClick_3" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1" CVScreenId="dfa17818-1c26-4568-8e7a-2b29bbf6411c" ContentHash="FOpbKnsygE6NCk2OsKeFlg" CvTextArea="882, 116, 83, 17" CvTextArgument="Proyectos" CvType="Text" DesignTimeRectangle="874, 104, 99, 40" ElementType="Text" FullSelectorArgument="&lt;webctrl aaname='Proyectos' parentid='navbarScroll' tag='A' /&gt;" Guid="bf3c8833-194b-4083-91a1-e221381d8762" InformativeScreenshot="bdc343df2a81a896a26013fca12a68c5.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/e5Y5PmHxXE6DGtEWYzrQ2g" ScopeSelectorArgument="&lt;html app='msedge.exe' title='Inicio' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                </uix:NClick.Target>
+                <uix:NClick.VerifyOptions>
+                  <uix:VerifyExecutionOptions DisplayName="Entrada 'Entrada '127.0.0.18000view-pro…''" Mode="Appears">
+                    <uix:VerifyExecutionOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionOptions.Retry>
+                    <uix:VerifyExecutionOptions.Target>
+                      <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="3a608d0b-8e47-4025-a640-fd307b15b49b" ContentHash="gZu1mYAYSUmxTwZlw2owuQ" CvElementArea="86, 45, 1088, 33" CvType="InputBox" DesignTimeRectangle="118, 48, 995, 28" ElementType="InputBox" FullSelectorArgument="&lt;ctrl name='127.0.0.1:8000/view-project/: Microsoft Edge' role='pane' /&gt;&lt;ctrl name='Barra de la aplicación' role='tool bar' /&gt;&lt;ctrl name='Barra de direcciones y búsqueda' role='editable text' /&gt;" Guid="343a4dc4-0683-48d6-9830-c97857bd81f7" InformativeScreenshot="7ee77d6e30c8b0a9c32645fef64a51b3.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/JCbdVkfXnUGjdmhABGuXGw" ScopeSelectorArgument="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='127.0.0.1:8000/view-project/ - Personal: Microsoft​ Edge' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                    </uix:VerifyExecutionOptions.Target>
+                    <uix:VerifyExecutionOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionOptions.Timeout>
+                  </uix:VerifyExecutionOptions>
+                </uix:NClick.VerifyOptions>
+              </uix:NClick>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Crear proyecto'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,225" sap2010:WorkflowViewState.IdRef="NClick_4" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="e3acbcf5-7fc0-48dc-91ce-332c86ac34bf" ContentHash="1w04aGt0ykerHX4MBCvMhQ" CvElementArea="1097, 205, 147, 41" CvTextArea="1110, 217, 120, 19" CvTextArgument="Crear proyecto" CvType="Button" DesignTimeRectangle="1098, 207, 144, 38" ElementType="Button" FullSelectorArgument="&lt;webctrl id='btnCrearProyecto' tag='BUTTON' /&gt;" Guid="1f7840c0-107d-4555-827d-fb0b7aa7f50b" InformativeScreenshot="75118fe6058be6c1c8eeca5b617df05a.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/LNhy7dudNUy3-MRCRUdlHw" ScopeSelectorArgument="&lt;html app='msedge.exe' title='127.0.0.1:8000/view-project/' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                </uix:NClick.Target>
+                <uix:NClick.VerifyOptions>
+                  <uix:VerifyExecutionOptions DisplayName="Element 'Element 'Crear un nuevo proyecto…''" Mode="Appears">
+                    <uix:VerifyExecutionOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionOptions.Retry>
+                    <uix:VerifyExecutionOptions.Target>
+                      <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" ContentHash="hhU86fFTjUCeXTGd7FRr9A" DesignTimeRectangle="12, 82, 1358, 642" FullSelectorArgument="&lt;webctrl id='miModal' tag='DIV' /&gt;" Guid="2675cd6a-8f90-466c-b0b1-428642ffa60c" InformativeScreenshot="d21a23a6d79dd64f70ff656c4982ed5a.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/0RUFf2ujaEeAT2lqdwddvg" ScopeSelectorArgument="&lt;html app='msedge.exe' title='127.0.0.1:8000/view-project/' /&gt;" SearchSteps="Selector" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                    </uix:VerifyExecutionOptions.Target>
+                    <uix:VerifyExecutionOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionOptions.Timeout>
+                  </uix:VerifyExecutionOptions>
+                </uix:NClick.VerifyOptions>
+              </uix:NClick>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'Nombre del proyecto'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,286" sap2010:WorkflowViewState.IdRef="NTypeInto_3" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Text="Prueba de Uipath" Version="V4">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="f011b6dc-2fe0-471d-9c63-0c5e8b62c005" ContentHash="dgnCudKyoU6XyBj0VVtsIQ" CvElementArea="458, 221, 468, 40" CvType="InputBox" DesignTimeRectangle="458, 222, 466, 38" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='nombre-proyecto' tag='INPUT' type='text' class='form-control' placeholder='Ingresa el nombre de tu proyecto' aaname='Nombre del proyecto' matching:id='fuzzy' fuzzylevel:id='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' /&gt;" Guid="ff7d262f-44af-4bef-a9c3-0d12498cf1a3" InformativeScreenshot="1f065544a5f3343811214829786c585b.png" IsResponsive="True" Reference="Y7dbp9UFtkm0gqkTn6p-hw/L1tV6986Q0m7XzARJvG01A" ScopeSelectorArgument="&lt;html app='msedge.exe' title='127.0.0.1:8000/view-project/' /&gt;" SearchSteps="FuzzySelector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                        <uix:Target CVScreenId="f011b6dc-2fe0-471d-9c63-0c5e8b62c005" CvTextArea="458, 193, 171, 18" CvTextArgument="Nombre del proyecto" CvType="Text" DesignTimeRectangle="458, 190, 170, 24" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='form-label' aaname='Nombre del proyecto' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' check:innerText='Nombre del proyecto' /&gt;" Guid="cf00f7e1-3ed0-4423-a358-374cdcb47413" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+                <uix:NTypeInto.VerifyOptions>
+                  <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                    <uix:VerifyExecutionTypeIntoOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionTypeIntoOptions.Retry>
+                    <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                  </uix:VerifyExecutionTypeIntoOptions>
+                </uix:NTypeInto.VerifyOptions>
+              </uix:NTypeInto>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'Nombre de la empresa'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,286" sap2010:WorkflowViewState.IdRef="NTypeInto_4" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Text="Empresa Uipath" Version="V4">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="f9c511eb-8ecf-4b45-bda6-bb818eff8cb4" ContentHash="K5BKN59isUC2ZrQj3hLeaA" CvElementArea="457, 307, 467, 40" CvType="InputBox" DesignTimeRectangle="458, 308, 466, 38" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='nombre-empresa' tag='INPUT' type='text' class='form-control' placeholder='Ingresa el nombre de la empresa ' aaname='Nombre de la empresa' matching:id='fuzzy' fuzzylevel:id='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' /&gt;" Guid="587ac5f0-f46c-4bd7-83d0-7a445fdd7135" InformativeScreenshot="77e7b49149da00628e82e84757758a2b.png" IsResponsive="True" Reference="Y7dbp9UFtkm0gqkTn6p-hw/4bugnsghu0C3kQS9uhy6yA" ScopeSelectorArgument="&lt;html app='msedge.exe' title='127.0.0.1:8000/view-project/' /&gt;" SearchSteps="FuzzySelector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                        <uix:Target CVScreenId="f9c511eb-8ecf-4b45-bda6-bb818eff8cb4" CvTextArea="458, 279, 185, 18" CvTextArgument="Nombre de la empresa" CvType="Text" DesignTimeRectangle="458, 276, 184, 24" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Nombre de la empresa' tag='LABEL' type='' class='form-label' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' check:innerText='Nombre de la empresa' /&gt;" Guid="c4935ad1-8a87-403f-8fa9-1c29a4d6af15" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+                <uix:NTypeInto.VerifyOptions>
+                  <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                    <uix:VerifyExecutionTypeIntoOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionTypeIntoOptions.Retry>
+                    <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                  </uix:VerifyExecutionTypeIntoOptions>
+                </uix:NTypeInto.VerifyOptions>
+              </uix:NTypeInto>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Guardar cambios'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,218" sap2010:WorkflowViewState.IdRef="NClick_5" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="a96d66a4-a2db-4c0d-9226-ac8dedf0f8ff" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="e2c51c09-3a28-4fd2-93ba-52dabaeab26a" ContentHash="X3D4jKaWLkq-GWKmFBO7Hw" CvElementArea="758, 479, 168, 42" CvTextArea="771, 491, 141, 15" CvTextArgument="Guardar cambios" CvType="Button" DesignTimeRectangle="760, 481, 164, 38" ElementType="Button" FullSelectorArgument="&lt;webctrl tag='BUTTON' type='submit' /&gt;" Guid="0f8b8840-83cc-4cfe-86c5-19ac1301d5b5" InformativeScreenshot="24e5cc9140575e706ddfe010767759ee.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/UQi6XZzXjUu95RnDzeNkxQ" ScopeSelectorArgument="&lt;html app='msedge.exe' title='127.0.0.1:8000/view-project/' /&gt;" SearchSteps="Selector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                </uix:NClick.Target>
+                <uix:NClick.VerifyOptions>
+                  <uix:VerifyExecutionOptions DisplayName="Entrada 'Entrada '127.0.0.18000view-pro…'(1)'" Mode="Appears">
+                    <uix:VerifyExecutionOptions.Retry>
+                      <InArgument x:TypeArguments="x:Boolean" />
+                    </uix:VerifyExecutionOptions.Retry>
+                    <uix:VerifyExecutionOptions.Target>
+                      <uix:TargetAnchorable BrowserURL="127.0.0.1/view-project" CVScreenId="25ff30f2-952a-4d53-9bcb-ac4bb790d146" ContentHash="dlayEg29NU61UcVzoaTyRQ" DesignTimeRectangle="118, 48, 995, 28" ElementType="InputBox" FullSelectorArgument="&lt;ctrl name='127.0.0.1:8000/view-project/: Microsoft Edge' role='pane' /&gt;&lt;ctrl name='Barra de la aplicación' role='tool bar' /&gt;&lt;ctrl name='Barra de direcciones y búsqueda' role='editable text' /&gt;" Guid="b6b79bff-b281-4c20-8d7a-6b688acef18c" InformativeScreenshot="e8e77d0d8fa23201f2714b7406c1a670.png" Reference="Y7dbp9UFtkm0gqkTn6p-hw/vKgyBfz2_0Ky_iKD-bBCEg" ScopeSelectorArgument="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='127.0.0.1:8000/view-project/ - Personal: Microsoft​ Edge' /&gt;" SearchSteps="Selector" Version="V6" Visibility="Interactive" WaitForReadyArgument="None" />
+                    </uix:VerifyExecutionOptions.Target>
+                    <uix:VerifyExecutionOptions.Timeout>
+                      <InArgument x:TypeArguments="x:Double" />
+                    </uix:VerifyExecutionOptions.Timeout>
+                  </uix:VerifyExecutionOptions>
+                </uix:NClick.VerifyOptions>
+              </uix:NClick>
+            </Sequence>
+          </ActivityAction>
+        </uix:NApplicationCard.Body>
+        <uix:NApplicationCard.TargetApp>
+          <uix:TargetApp Area="-8, -8, 1382, 736" BrowserType="Edge" ContentHash="3UnrjJx-JkGWv8KgbND-uw" IconBase64="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" InformativeScreenshot="da8494a1d8fb60a35d4db6d2e85007f2.jpg" Reference="Y7dbp9UFtkm0gqkTn6p-hw/iPtUDj6pMUi8Zw4J6JBPNg" Selector="&lt;html app='msedge.exe' title='Inicio' /&gt;" Url="http://127.0.0.1:8000/" Version="V2" />
+        </uix:NApplicationCard.TargetApp>
+      </uix:NApplicationCard>
+    </Sequence>
+  </Sequence>
+</Activity>

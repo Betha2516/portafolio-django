@@ -36,7 +36,7 @@ def user_login(request):
             messages.success(request, "Inicio sesion correctamente")
             return redirect("home")
         else:
-            messages.error(request, "Error al iniciar sesión")
+            messages.warning(request, "Error al iniciar sesión")
             return redirect("login")
     return render(request, "login.html")
 
@@ -55,7 +55,7 @@ def register(request):
             messages.success(request, "Usuario registrado correctamente.")
             return redirect("login")
         else:
-            messages.error(request, "Por favor corrige los errores del formulario.")
+            messages.warning(request, "Por favor corrige los errores del formulario.")
     return render(request, "registrarse.html", {"form": fm})
 
 @login_required
@@ -84,12 +84,12 @@ def create_project(request):
         
         # Validación de campos vacíos
         if not empresa or not nombre:
-            messages.error(request, 'Todos los campos son obligatorios.')
+            messages.warning(request, 'Todos los campos son obligatorios.')
             return redirect('view_project')
 
         # Validación de proyecto duplicado
         if Project.objects.filter(empresa=empresa, nombre=nombre).exists():
-            messages.error(request, 'Ya existe un proyecto con ese nombre y empresa.')
+            messages.warning(request, 'Ya existe un proyecto con ese nombre y empresa.')
             return redirect('view_project')
             
         # Crear el proyecto
@@ -158,7 +158,7 @@ def edit_project(request, proyecto_id):
             return redirect('view_project')
         return redirect('view_project')
     except Project.DoesNotExist:
-        messages.error(request, 'El proyecto no existe')
+        messages.warning(request, 'El proyecto no existe')
         return redirect('view_project')
 
 @login_required
@@ -171,16 +171,16 @@ def create_commit(request, project_id):
     rating = request.POST.get("rating") 
 
     if not content:
-        messages.error(request, "No se realizó el comentario: falta el contenido.")
+        messages.warning(request, "No se realizó el comentario: falta el contenido.")
         return redirect('view_project') 
 
     try:
         rating = int(rating) if rating else None
         if rating and (rating < 1 or rating > 5):
-            messages.error(request, "La calificación debe estar entre 1 y 5.")
+            messages.warning(request, "La calificación debe estar entre 1 y 5.")
             return redirect('view_project')
     except ValueError:
-        messages.error(request, "La calificación proporcionada no es válida.")
+        messages.warning(request, "La calificación proporcionada no es válida.")
         return redirect('view_project')
 
     Comment.objects.create(
