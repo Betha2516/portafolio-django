@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import permission_required
 
-# Create your views here.
-
 def home(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -188,5 +186,25 @@ def create_commit(request, project_id):
     messages.success(request, "Comentario creado correctamente.")
     return redirect('view_project')
 
+@login_required
+def perfil_usuario(request):
+    usuario = request.user
+    contexto = {
+        'usuario': usuario,
+    }
+    return render(request, 'usuarios/perfil.html', contexto)
 
-
+@login_required
+@require_http_methods(["GET"])
+def perfil_usuario(request):
+    try:
+        cliente = Client.objects.get(user=request.user)
+    except Client.DoesNotExist:
+        cliente = None
+    
+    context = {
+        'usuario': request.user,
+        'cliente': cliente,
+    }
+    
+    return render(request, 'perfil_usuario.html', context)
