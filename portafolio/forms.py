@@ -89,3 +89,19 @@ class ProjectForm(forms.ModelForm):
             if imagen.size > 2 * 1024 * 1024:
                 raise forms.ValidationError('El tamaño máximo de la imagen es 2 MB.')
         return imagen
+    
+class EditUserForm(forms.ModelForm):
+    first_name = forms.CharField(label='Nombre', max_length=30, required=False)
+    last_name = forms.CharField(label='Apellido', max_length=30, required=False)
+    email = forms.EmailField(label='Email', required=True)
+    celular = forms.CharField(label='Celular', max_length=15, required=False)
+    grupos = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        label='Roles',
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
