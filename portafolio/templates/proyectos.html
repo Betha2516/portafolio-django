@@ -2,6 +2,7 @@
     {% block content %}
     <div class="container mb-3" style="margin-top: 90px;">
       <h1>Proyectos</h1>
+        <!--Filtro de búsqueda y botón de crear proyecto-->
         <form id="searchForm" method="get" action="{% url 'view_project' %}">
         <div class="mb-3 mt-3 d-flex align-items-stretch gap-2" style="max-width: 100%;">
             <input type="text" name="q" id="searchInput" class="form-control" placeholder="Buscar proyecto" value="{{ query }}" autocomplete="off"aria-label="Buscar proyecto"aria-describedby="btnCrearProyecto">
@@ -12,7 +13,7 @@
             {% endif %}
         </div>
         </form>
-
+        <!--Display de proyectos, con botones condicionales pertinentes para los permisos del usuario-->
         <div id="proyectosContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 ">
             {% for project in page_obj %}
                 <div class="col">
@@ -28,9 +29,11 @@
                             <button type="button" class="btn btn-outline-info btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modalDetalles{{ project.id }}">
                                 Detalles
                             </button>
+                            <!--Delete project SÓLO para los usuarios con el permiso-->
                             {% if perms.portafolio.delete_project %}
                             <button class="eliminar-proyecto btn btn-outline-danger btn-sm mt-2" data-url="{% url 'delete_project' project.id %}">Eliminar</button>
                             {% endif %}
+                            <!--Edit project SÓLO para los usuarios con el permiso-->
                             {% if perms.portafolio.change_project%}
                             <button class="editar-proyecto btn btn-outline-primary btn-sm mt-2"
                                     data-id="{{ project.id }}"
@@ -39,6 +42,7 @@
                                 Editar
                             </button>
                             {%endif%}
+                            <!--Add comment SÓLO para los usuarios con el permiso-->
                             {% if perms.portafolio.add_comment%}
                             <button class="comentar-proyecto btn btn-outline-success btn-sm mt-2"
                                     data-id="{{ project.id }}"
