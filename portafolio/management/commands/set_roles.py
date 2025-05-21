@@ -9,6 +9,7 @@ class Command(BaseCommand):
          'admin': [
             'change_user',
             'view_user',
+            'delete_user',
             'add_project',
             'change_project',
             'delete_project',

@@ -18,6 +18,13 @@
                     <a class="nav-link" href="{% url 'view_project' %}">Proyectos</a>
                 </li>
                 {% endif %}
+                {% if user.is_authenticated and perms.auth.view_user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lista_usuarios' %}">
+                        Usuarios
+                    </a>
+                </li>
+                {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'perfil_usuario' %}">
