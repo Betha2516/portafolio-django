@@ -18,25 +18,7 @@ Este proyecto es una aplicación web desarrollada con Django que permite gestion
 - SQLite
 - Bootstrap 
 
-## Estructura del proyecto
-
-portafolio-django/
-├── portafolio/ # Aplicación principal
-│ ├── admin.py
-│ ├── models.py
-│ ├── views.py
-│ ├── urls.py
-│ └── templates/
-│ └── portafolio/
-│ └── ...html
-├── portafolio_django/ # Proyecto Django (settings, urls)
-│ ├── settings.py
-│ ├── urls.py
-│ └── wsgi.py
-├── db.sqlite3 # Base de datos SQLite
-└── manage.py # Script principal de Django
-
-## 🚀 Instalación y uso local
+## Instalación y uso local
 
 1. Clona el repositorio:
 ```
