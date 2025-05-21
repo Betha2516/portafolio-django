@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import permission_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
+from .forms import EditUserForm
 
 User = get_user_model()
 
@@ -297,10 +298,53 @@ def editar_usuario(request, user_id):
     return render(request, 'editar_usuarios.html', context)
 
 @login_required
-@permission_required('auth.delete_user')
+@permission_required('auth.delete_user', raise_exception=True)
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         usuario = get_object_or_404(User, id=user_id)
         usuario.delete()
         return HttpResponse(status=204)
     return HttpResponse(status=405)
+
+@login_required
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(User, id=user_id)
+    
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=usuario)
+        if form.is_valid():
+            user = form.save(commit=False)
+            
+            grupos_seleccionados = form.cleaned_data.get('grupos')
+            user.groups.clear()
+            for grupo in grupos_seleccionados:
+                user.groups.add(grupo)
+            
+            user.save()
+            
+            celular = form.cleaned_data.get('celular')
+            if celular:
+                cliente, created = Client.objects.get_or_create(user=user)
+                cliente.celular = celular
+                cliente.save()
+            
+            messages.success(request, f"Usuario {user.username} actualizado correctamente.")
+            return redirect('lista_usuarios')
+    else:
+        initial_data = {
+            'username': usuario.username,
+            'first_name': usuario.first_name,
+            'last_name': usuario.last_name,
+            'email': usuario.email,
+            'grupos': usuario.groups.all(),
+        }
+        
+        try:
+            if hasattr(usuario, 'client') and usuario.client:
+                initial_data['celular'] = usuario.client.celular
+        except Client.DoesNotExist:
+            pass
+            
+        form = EditUserForm(initial=initial_data, instance=usuario)
+    
+    return render(request, 'editar_usuario.html', {'form': form, 'usuario': usuario})
