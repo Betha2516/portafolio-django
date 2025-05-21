@@ -13,11 +13,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Somos nosotros</a>
                 </li>
+                <!--Solo mostrar a los usuarios que pueden ver proyecto-->
                 {% if user.is_authenticated and perms.portafolio.view_project %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'view_project' %}">Proyectos</a>
                 </li>
                 {% endif %}
+                <!--Solo mostrar a los usuarios que pueden ver usuarios (es decir, el admin)-->
                 {% if user.is_authenticated and perms.auth.view_user %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'lista_usuarios' %}">
@@ -25,6 +27,7 @@
                     </a>
                 </li>
                 {% endif %}
+                <!--Mostrar el perfil a los uusarios autenticados-->
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'perfil_usuario' %}">
@@ -32,6 +35,7 @@
                     </a>
                 </li>
                 {% endif %}
+                <!--Solo mostrar cerrar sesión a aquellos usuarios que estén autenticados, de lo contrario, mostrar Iniciar Sesión-->
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>

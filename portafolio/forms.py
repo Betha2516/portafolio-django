@@ -34,20 +34,22 @@ class registro(forms.ModelForm):
 
         return cleaned_data
 
+    # Verificar que el correo aún no haya sido utilizado en la base de datos.
     def clean_correo(self):
         correo = self.cleaned_data.get('correo')
         if User.objects.filter(email=correo).exists():
             raise forms.ValidationError("Correo ya existente")
         return correo
 
+    # Verifica que el celular no haya sido usado en la base de datos
     def clean_celular(self):
         celular = self.cleaned_data.get('celular')
         if Client.objects.filter(celular=celular).exists():
             raise forms.ValidationError("Celular ya existente")
         return celular
 
+    # Guardar el usuario en la base de datos
     def save(self, commit=True):
-        # Guardar el usuario en la tabla User
         user = User(
             username=self.cleaned_data['correo'],
             first_name=self.cleaned_data['nombre'],
@@ -58,14 +60,14 @@ class registro(forms.ModelForm):
 
         if commit:
             user.save()
-            # Agregar al grupo
+            # Agregar al rol definido
             grupo = self.cleaned_data['rol']
             user.groups.add(grupo)
 
-            # Crear instancia de Client y asignar campos manualmente
+            # Crear el cliente y asignar los datos
             client = super().save(commit=False)
             client.user = user
-            client.celular = self.cleaned_data['celular']  # <- Asignación manual del celular
+            client.celular = self.cleaned_data['celular']
             client.save()
 
         return user
@@ -83,21 +85,24 @@ class ProjectForm(forms.ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('imagen')
         if imagen:
-            # Validar el tipo de archivo
+            # Verificar que el archivo que se está subiendo es una imágen
             if not imagen.name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
                 raise forms.ValidationError('El archivo debe ser una imagen (PNG, JPG, JPEG o GIF).')
-            # Validar el tamaño (máximo 2 MB)
+            # Verificar el tamaño para optimización de la aplicación
             if imagen.size > 2 * 1024 * 1024:
                 raise forms.ValidationError('El tamaño máximo de la imagen es 2 MB.')
         return imagen
     
 class EditUserForm(forms.ModelForm):
+    """
+    Formulario para la edición de un usuario ya existente desde la vista de administrador.
+    """
     first_name = forms.CharField(label='Nombre', max_length=30, required=True)
     last_name = forms.CharField(label='Apellido', max_length=30, required=True)
     email = forms.EmailField(label='Email', required=True)
     celular = forms.CharField(label='Celular', max_length=15, required=True)
     
-    # Cambiar de ModelMultipleChoiceField a ModelChoiceField para permitir solo un rol
+    # Seleccion del rol del usuario para permitir que el admin lo cambie.
     rol = forms.ModelChoiceField(
         queryset=Group.objects.all(),
         label='Rol',
@@ -112,12 +117,12 @@ class EditUserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         
-        # Verificar que todos los campos tengan datos
+        # Validación: Verificar que todos los campos tengan datos
         for field_name, field_value in cleaned_data.items():
             if field_value is None or field_value == '':
                 raise ValidationError(f"El campo {field_name} es obligatorio.")
         
-        # Verificar que se haya seleccionado un rol
+        # Validación: Verificar que se haya seleccionado un rol
         if 'rol' not in cleaned_data or cleaned_data['rol'] is None:
             raise ValidationError("Debe seleccionar un rol para el usuario.")
             

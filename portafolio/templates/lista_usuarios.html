@@ -179,7 +179,6 @@
       <form method="post" action="{% url 'editar_usuario' usuario.id %}" class="form-editar-usuario" data-user-id="{{ usuario.id }}">
         {% csrf_token %}
         <div class="modal-body">
-          <!-- Mensajes de error -->
           <div class="alert alert-danger validation-errors" style="display: none;" role="alert">
             <ul class="mb-0 error-list"></ul>
           </div>
@@ -249,141 +248,148 @@
 {% endfor %}
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const formularios = document.querySelectorAll(".form-eliminar-usuario");
+// Recargar el DOM para cuando se eliminar un usuario, y control de errores
+document.addEventListener("DOMContentLoaded", function () {
+    const formularios = document.querySelectorAll(".form-eliminar-usuario");
 
-        formularios.forEach(form => {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
+    formularios.forEach(form => {
+        // Escuchar el evento submit para reaccionar a el
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
 
-                const userId = this.dataset.userId;
-                const csrfToken = this.querySelector("[name=csrfmiddlewaretoken]").value;
-                const url = this.action;
+            const userId = this.dataset.userId;
+            const csrfToken = this.querySelector("[name=csrfmiddlewaretoken]").value;
+            const url = this.action; 
 
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": csrfToken,
-                    }
-                })
-                .then(response => {
-                    if (response.status === 204) {
-                        const modal = bootstrap.Modal.getInstance(document.getElementById(`deleteModal${userId}`));
-                        modal.hide();
-                        location.reload();
-                    } else {
-                        // LogRocket: registrar error de eliminación
-                        LogRocket.error("Fallo al eliminar usuario con ID: " + userId, {
-                            url: url,
-                            status: response.status
-                        });
-                        alert("Error al eliminar el usuario.");
-                    }
-                })
-                .catch(error => {
-                    // LogRocket: registrar excepción
-                    LogRocket.error("Excepción en eliminación de usuario", error);
-                    alert("Error inesperado al eliminar usuario.");
-                });
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const formulariosEdicion = document.querySelectorAll(".form-editar-usuario");
-
-        formulariosEdicion.forEach(form => {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                const userId = this.dataset.userId;
-                const modalElement = document.getElementById(`editModal${userId}`);
-                const errorContainer = modalElement.querySelector('.validation-errors');
-                const errorList = modalElement.querySelector('.error-list');
-
-                errorContainer.style.display = 'none';
-                errorList.innerHTML = '';
-                modalElement.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-
-                let isValid = true;
-
-                modalElement.querySelectorAll('input[required], select[required]').forEach(input => {
-                    if (!input.value.trim()) {
-                        input.classList.add('is-invalid');
-                        const fieldName = input.name.charAt(0).toUpperCase() + input.name.slice(1);
-                        const feedbackEl = modalElement.querySelector(`.${input.name}-error`);
-                        if (feedbackEl) feedbackEl.textContent = `El campo ${fieldName} es obligatorio`;
-                        isValid = false;
-                    }
-                });
-
-                if (!isValid) {
-                    errorContainer.style.display = 'block';
-                    errorList.innerHTML = '<li>Por favor, complete todos los campos obligatorios.</li>';
-
-                    // LogRocket: registrar validación fallida
-                    LogRocket.log("Formulario inválido al editar usuario " + userId);
-                    return;
+            // Hacer la solicitud POST para eliminar el usuario
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken,
                 }
-
-                const formData = new FormData(this);
-                const headers = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                };
-
-                fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: headers
-                })
-                .then(response => response.json().then(data => ({ ...data, ok: response.ok })))
-                .then(data => {
-                    if (data.ok) {
-                        const modal = bootstrap.Modal.getInstance(modalElement);
-                        modal.hide();
-
-                        mostrarToast(data.message);
-
-                        // LogRocket: registrar edición exitosa
-                        LogRocket.log("Usuario editado exitosamente", {
-                            usuario_id: userId,
-                            mensaje: data.message
-                        });
-                    } else {
-                        errorContainer.style.display = 'block';
-                        errorList.innerHTML = '';
-
-                        if (data.errors) {
-                            Object.keys(data.errors).forEach(fieldName => {
-                                const field = modalElement.querySelector(`[name="${fieldName}"]`);
-                                if (field) {
-                                    field.classList.add('is-invalid');
-                                    const feedbackEl = modalElement.querySelector(`.${fieldName}-error`);
-                                    if (feedbackEl) {
-                                        feedbackEl.textContent = data.errors[fieldName].join(' ');
-                                    }
-                                }
-                                const errorMsg = `<li>${fieldName}: ${data.errors[fieldName].join(' ')}</li>`;
-                                errorList.innerHTML += errorMsg;
-                            });
-
-                            // LogRocket: registrar errores de validación
-                            LogRocket.warn("Errores de validación al editar usuario", data.errors);
-                        } else {
-                            errorList.innerHTML = '<li>Hubo un error al procesar el formulario. Por favor revise los datos.</li>';
-                            LogRocket.error("Error desconocido al editar usuario");
-                        }
-                    }
-                })
-                .catch(error => {
-                    LogRocket.error("Excepción durante edición de usuario", error);
-                    errorContainer.style.display = 'block';
-                    errorList.innerHTML = '<li>Ha ocurrido un error al procesar la solicitud. Intente de nuevo más tarde.</li>';
-                });
+            })
+            .then(response => {
+                if (response.status === 204) {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById(`deleteModal${userId}`));
+                    modal.hide();
+                    location.reload();
+                } else {
+                    // Error de LogRocket en caso de que no se pueda borrar un elemento.
+                    LogRocket.error("Fallo al eliminar usuario con ID: " + userId, {
+                        url: url,
+                        status: response.status
+                    });
+                    alert("Error al eliminar el usuario.");
+                }
+            })
+            .catch(error => {
+                // Errores con LogRocket
+                LogRocket.error("Excepción en eliminación de usuario", error);
+                alert("Error inesperado al eliminar usuario.");
             });
         });
     });
+});
+
+// Recargar el DOM y hacer validaciones para los formularios de edición
+document.addEventListener("DOMContentLoaded", function () {
+    const formulariosEdicion = document.querySelectorAll(".form-editar-usuario");
+
+    formulariosEdicion.forEach(form => {
+        // Escuchar el evento submit para reaccionar a el
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const userId = this.dataset.userId;
+            const modalElement = document.getElementById(`editModal${userId}`); 
+            const errorContainer = modalElement.querySelector('.validation-errors');
+            const errorList = modalElement.querySelector('.error-list');
+
+            // Oculta errores previos y limpia clases de validación.
+            errorContainer.style.display = 'none';
+            errorList.innerHTML = '';
+            modalElement.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+            let isValid = true;
+
+            // Valida campos requeridos
+            modalElement.querySelectorAll('input[required], select[required]').forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('is-invalid');
+                    const fieldName = input.name.charAt(0).toUpperCase() + input.name.slice(1);
+                    const feedbackEl = modalElement.querySelector(`.${input.name}-error`);
+                    if (feedbackEl) feedbackEl.textContent = `El campo ${fieldName} es obligatorio`;
+                    isValid = false;
+                }
+            });
+
+            // Si el formulario no es válido, muestra errores y detiene la ejecución
+            if (!isValid) {
+                errorContainer.style.display = 'block';
+                errorList.innerHTML = '<li>Por favor, complete todos los campos obligatorios.</li>';
+                LogRocket.log("Formulario inválido al editar usuario " + userId);
+                return;
+            }
+
+            const formData = new FormData(this);
+            const headers = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            };
+
+            // Envía la solicitud POST para editar el usuario.
+            fetch(this.action, {
+                method: "POST",
+                body: formData,
+                headers: headers
+            })
+            // Procesa la respuesta JSON, incluyendo el estado 'ok'.
+            .then(response => response.json().then(data => ({ ...data, ok: response.ok })))
+            .then(data => {
+                // Si la edición es exitosa, oculta el modal, muestra un toast y registra el éxito.
+                if (data.ok) {
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    modal.hide();
+                    mostrarToast(data.message);
+                    LogRocket.log("Usuario editado exitosamente", {
+                        usuario_id: userId,
+                        mensaje: data.message
+                    });
+                } else {
+                    // Muestra errores de validación o un error general.
+                    errorContainer.style.display = 'block';
+                    errorList.innerHTML = '';
+
+                    if (data.errors) {
+                        // Itera y muestra errores de campo específicos.
+                        Object.keys(data.errors).forEach(fieldName => {
+                            const field = modalElement.querySelector(`[name="${fieldName}"]`);
+                            if (field) {
+                                field.classList.add('is-invalid');
+                                const feedbackEl = modalElement.querySelector(`.${fieldName}-error`);
+                                if (feedbackEl) {
+                                    feedbackEl.textContent = data.errors[fieldName].join(' ');
+                                }
+                            }
+                            const errorMsg = `<li>${fieldName}: ${data.errors[fieldName].join(' ')}</li>`;
+                            errorList.innerHTML += errorMsg;
+                        });
+                        LogRocket.warn("Errores de validación al editar usuario", data.errors);
+                    } else {
+                        errorList.innerHTML = '<li>Hubo un error al procesar el formulario. Por favor revise los datos.</li>';
+                        LogRocket.error("Error desconocido al editar usuario");
+                    }
+                }
+            })
+            .catch(error => {
+                // Captura y registra excepciones durante la edición.
+                LogRocket.error("Excepción durante edición de usuario", error);
+                errorContainer.style.display = 'block';
+                errorList.innerHTML = '<li>Ha ocurrido un error al procesar la solicitud. Intente de nuevo más tarde.</li>';
+            });
+        });
+    });
+});
 </script>
 
 {% endblock %}
