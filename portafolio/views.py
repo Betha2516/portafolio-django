@@ -298,7 +298,7 @@ def editar_usuario(request, user_id):
     return render(request, 'editar_usuario.html', context)
 
 @login_required
-@permission_required('auth.delete_user')
+@permission_required('auth.delete_user', raise_exception=True)
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         usuario = get_object_or_404(User, id=user_id)
